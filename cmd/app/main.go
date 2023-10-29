@@ -6,6 +6,9 @@ import (
 	"cookbook/internal/usecase"
 	"cookbook/internal/storage"
 	"log"
+	"os"
+	"os/signal"
+	"context"
 )
 
 
@@ -24,8 +27,20 @@ func main() {
 
 	handlers := server.NewHandler(cookInteractor)
 	srv := new(server.Server)
+	go func() {
+		if err := srv.Run(appConfig.HostAddr, handlers.InitRoutes()); err != nil {
+			log.Fatalf("error occured while running http server: %s", err.Error())
+		}
+	}()
+	log.Print("App Started")
 
-	if err := srv.Run(appConfig.HostAddr, handlers.InitRoutes()); err != nil {
-		log.Fatalf("error occured while running http server: %s", err.Error())
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+
+	log.Print("App Shutting Down")
+
+	if err := srv.Shutdown(context.Background()); err != nil {
+		log.Fatal("error occured on server shutting down: %s", err.Error())
 	}
 }

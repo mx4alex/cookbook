@@ -7,6 +7,7 @@ import (
 type DishStorage interface {
 	GetAllDishes() ([]entity.DishOutput, error)
 	GetDishInfo(name string) (entity.DishInfo, error)
+	AddDish(*entity.DishInput) error
 }
 
 type CookInteractor struct {
@@ -23,4 +24,8 @@ func (c *CookInteractor) GetAllDishes() ([]entity.DishOutput, error) {
 
 func (c *CookInteractor) GetDishInfo(name string) (entity.DishInfo, error) {
 	return c.dishStorage.GetDishInfo(name)
+}
+
+func (c *CookInteractor) AddDish(dish *entity.DishInput) error {
+	return c.dishStorage.AddDish(dish)
 }

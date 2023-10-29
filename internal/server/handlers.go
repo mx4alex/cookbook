@@ -1,6 +1,7 @@
 package server
 
 import (
+	"cookbook/internal/entity"
 	"cookbook/internal/usecase"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -23,6 +24,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		dishes.GET("/", h.GetAllDishesHandler)
 		dishes.GET("/:name", h.GetDishInfoHandler)
+		dishes.POST("/", h.AddDishHandler)
 	}
 
 	return router
@@ -46,4 +48,20 @@ func (h *Handler) GetDishInfoHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, dishInfo)
+}
+
+func (h *Handler) AddDishHandler(c *gin.Context) {
+	dish := new(entity.DishInput)
+
+	if err := c.BindJSON(dish); err != nil {
+        c.String(http.StatusBadRequest, err.Error())
+        return
+    }
+	err := h.cookInteractor.AddDish(dish)
+	if err != nil {
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, StatusResponse("Блюдо успешно добавлено"))
 }

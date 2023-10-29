@@ -6,3 +6,9 @@ type statusResponse struct {
 type errorResponse struct {
 	Message string `json:"message"`
 }
+
+func StatusResponse(message string) statusResponse {
+	return statusResponse{
+        Status: message,
+    }
+}

@@ -30,18 +30,13 @@ type Ingredient struct {
 	Quantity	 int  		`json:"quantity" bson:"quantity"`
 }
 
-func NewIngredient(name string, measureUnit string, quantity int) Ingredient {
-	return Ingredient {
-		Name:   	 name,
-		MeasureUnit: measureUnit,
-		Quantity: 	 quantity,
-	}
-}
-
-func NewDishOutput (name string, measureUnit string, quantity int) Ingredient {
-	return Ingredient {
-		Name:   	 name,
-		MeasureUnit: measureUnit,
-		Quantity: 	 quantity,
-	}
+type DishInput struct {
+	Id       	 int			`json:"id" bson:"_id"`
+	Name   	 	 string 		`json:"name" bson:"name"`
+	CategoryId	 int 			`json:"category_id" bson:"category_id"`
+	CousineId	 int 			`json:"cousine_id" bson:"cousine_id"`
+	Description  string     	`json:"description" bson:"description"`
+	Recipe 		 string    	 	`json:"recipe" bson:"recipe"`
+	Time         int 			`json:"time" bson:"time"`
+	Ingredients []Ingredient 	`json:"ingredients" bson:"ingredients"`
 }
