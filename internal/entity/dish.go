@@ -1,42 +1,42 @@
 package entity
 
 type DishInStorage struct {
-	Id       	 int		`json:"id" bson:"_id"`
-	Name   	 	 string 	`json:"name" bson:"name"`
-	CategoryId	 int 		`json:"category_id" bson:"category_id"`
-	CousineId	 int 		`json:"cousine_id" bson:"cousine_id"`
-	Description  string     `json:"description" bson:"description"`
-	Recipe 		 string     `json:"recipe" bson:"recipe"`
-	Time         int 		`json:"time" bson:"time"`
+	Id       	 int		`json:"id"`
+	Name   	 	 string 	`json:"name"`
+	CategoryId	 int 		`json:"category_id"`
+	CousineId	 int 		`json:"cousine_id"`
+	Description  string     `json:"description"`
+	Recipe 		 string     `json:"recipe"`
+	Time         int 		`json:"time"`
 }
 
 type DishOutput struct {
-	Name   	 	 string 	`json:"name" bson:"name"`
-	Description  string     `json:"description" bson:"description"`
-	Time         int 		`json:"time" bson:"time"`
+	Name   	 	 string 	`json:"name"`
+	Description  string     `json:"description"`
+	Time         int 		`json:"time"`
 }
 
 type DishInfo struct {
-	Name   	 	 string 		`json:"name" bson:"name"`
-	Description  string     	`json:"description" bson:"description"`
-	Recipe 		 string 	    `json:"recipe" bson:"recipe"`
-	Time         int 			`json:"time" bson:"time"`
-	Ingredients []Ingredient 	`json:"ingredients" bson:"ingredients"`
+	Name   	 	 string 		`json:"name"`
+	Description  string     	`json:"description"`
+	Recipe 		 string 	    `json:"recipe"`
+	Time         int 			`json:"time"`
+	Ingredients []Ingredient 	`json:"ingredients"`
 }
 
 type Ingredient struct {
-	Name   	 	 string 	`json:"name" bson:"name"`
-	MeasureUnit  string     `json:"measure_unit" bson:"measure_unit"`
-	Quantity	 int  		`json:"quantity" bson:"quantity"`
+	Name   	 	 string 	`json:"name"`
+	MeasureUnit  string     `json:"measure_unit"`
+	Quantity	 int  		`json:"quantity"`
 }
 
 type DishInput struct {
-	Id       	 int			`json:"id" bson:"_id"`
-	Name   	 	 string 		`json:"name" bson:"name"`
-	CategoryId	 int 			`json:"category_id" bson:"category_id"`
-	CousineId	 int 			`json:"cousine_id" bson:"cousine_id"`
-	Description  string     	`json:"description" bson:"description"`
-	Recipe 		 string    	 	`json:"recipe" bson:"recipe"`
-	Time         int 			`json:"time" bson:"time"`
-	Ingredients []Ingredient 	`json:"ingredients" bson:"ingredients"`
+	Id       	 int			`json:"id"`
+	Name   	 	 string 		`json:"name"`
+	CategoryId	 int 			`json:"category_id"`
+	CousineId	 int 			`json:"cousine_id"`
+	Description  string     	`json:"description"`
+	Recipe 		 string    	 	`json:"recipe"`
+	Time         int 			`json:"time"`
+	Ingredients []Ingredient 	`json:"ingredients"`
 }
