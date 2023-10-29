@@ -84,11 +84,6 @@
             "name": "Ингредиент 3",
             "measure_unit": "шт",
             "quantity": 200
-        },
-        {
-            "name": "Ингредиент 4",
-            "measure_unit": "г",
-            "quantity": 200
         }
     ]
 }
