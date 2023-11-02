@@ -1,44 +1,27 @@
 package storage
 
 import (
-	"fmt"
 	"cookbook/internal/entity"
-	"cookbook/internal/config"
 	"database/sql"
 	_ "github.com/lib/pq"
 )
 
-type PostgreSQLStorage struct {
+type DishPostgres struct {
 	db *sql.DB
 }
 
-func New(cfg config.PostgresConfig) (*PostgreSQLStorage, error) {
-	conn := fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
-		cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.DBName, cfg.SSLMode,
-	)
-
-	db, err := sql.Open("postgres", conn)
-	if err != nil {
-		return nil, err
-	}
-
-	if err = db.Ping(); err != nil {
-		return nil, err
-	}
-
-	return &PostgreSQLStorage{db: db}, nil
+func NewDishPostgres(db *sql.DB) *DishPostgres {
+	return &DishPostgres{db: db}
 }
 
-
-func (s *PostgreSQLStorage) GetAllDishes() ([]entity.DishOutput, error) {
+func (s *DishPostgres) GetAllDishes() ([]entity.Dish, error) {
 	rows, err := s.db.Query("SELECT id, name, description, time FROM test.dish")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var dishes []entity.DishOutput
+	var dishes []entity.Dish
 	for rows.Next() {
 		var name, description string
 		var dishID, time int
@@ -48,7 +31,7 @@ func (s *PostgreSQLStorage) GetAllDishes() ([]entity.DishOutput, error) {
 			return nil, err
 		}
 
-		dish := entity.DishOutput{
+		dish := entity.Dish{
 			ID:			 dishID,
 			Name: 		 name,
 			Description: description,
@@ -63,20 +46,20 @@ func (s *PostgreSQLStorage) GetAllDishes() ([]entity.DishOutput, error) {
 }
 
 
-func (s *PostgreSQLStorage) GetDishInfo(dishID int) (entity.DishInfo, error) {
-    row := s.db.QueryRow("SELECT id, name, description, recipe, time FROM test.dish WHERE id = $1", dishID)
+func (s *DishPostgres) GetDishInfo(dishID int) (entity.Dish, error) {
+    row := s.db.QueryRow("SELECT id, name, cousine_id, category_id, description, recipe, time FROM test.dish WHERE id = $1", dishID)
 
     var dishName, description, recipe string
-    var id, time int
+    var id, cousineID, categoryID, time int
 
-    err := row.Scan(&id, &dishName, &description, &recipe, &time)
+    err := row.Scan(&id, &dishName, &cousineID, &categoryID, &description, &recipe, &time)
     if err != nil {
-        return entity.DishInfo{}, err
+        return entity.Dish{}, err
     }
 
     ingredientRows, err := s.db.Query("SELECT i.name, i.measure_unit, di.quantity FROM test.ingredient i JOIN test.dish_ingredient di ON i.id = di.ingredient_id WHERE di.dish_id = $1", id)
     if err != nil {
-        return entity.DishInfo{}, err
+        return entity.Dish{}, err
     }
     defer ingredientRows.Close()
 
@@ -88,7 +71,7 @@ func (s *PostgreSQLStorage) GetDishInfo(dishID int) (entity.DishInfo, error) {
 
         err := ingredientRows.Scan(&ingredientName, &measureUnit, &quantity)
         if err != nil {
-            return entity.DishInfo{}, err
+            return entity.Dish{}, err
         }
 
 		ingredient := entity.Ingredient{
@@ -100,9 +83,11 @@ func (s *PostgreSQLStorage) GetDishInfo(dishID int) (entity.DishInfo, error) {
         ingredients = append(ingredients, ingredient)
     }
 
-	dishInfo := entity.DishInfo{
+	dishInfo := entity.Dish{
 		ID:			 dishID,
 		Name: 		 dishName,
+		CousineID:   cousineID,
+		CategoryID:  categoryID,
 		Description: description,
 		Recipe: 	 recipe,
 		Time: 		 time,
@@ -112,7 +97,7 @@ func (s *PostgreSQLStorage) GetDishInfo(dishID int) (entity.DishInfo, error) {
     return dishInfo, nil
 }
 
-func (s *PostgreSQLStorage) AddDish(dishInput *entity.DishInput) error {
+func (s *DishPostgres) AddDish(dishInput *entity.Dish) error {
 	tx, err := s.db.Begin()
 	if err != nil {
 		return err
@@ -120,7 +105,7 @@ func (s *PostgreSQLStorage) AddDish(dishInput *entity.DishInput) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec("INSERT INTO test.dish (name, category_id, cousine_id, description, recipe, time) VALUES ($1, $2, $3, $4, $5, $6)",
-		dishInput.Name, dishInput.CategoryId, dishInput.CousineId, dishInput.Description, dishInput.Recipe, dishInput.Time)
+		dishInput.Name, dishInput.CategoryID, dishInput.CousineID, dishInput.Description, dishInput.Recipe, dishInput.Time)
 	if err != nil {
 		return err
 	}
@@ -167,7 +152,7 @@ func (s *PostgreSQLStorage) AddDish(dishInput *entity.DishInput) error {
 	return nil
 }
 
-func (s *PostgreSQLStorage) UpdateDish(dishID int, dishInput *entity.DishInput) error {
+func (s *DishPostgres) UpdateDish(dishID int, dishInput *entity.Dish) error {
 	tx, err := s.db.Begin()
 	if err != nil {
 		return err
@@ -175,7 +160,7 @@ func (s *PostgreSQLStorage) UpdateDish(dishID int, dishInput *entity.DishInput) 
 	defer tx.Rollback()
 
 	_, err = tx.Exec("UPDATE test.dish SET name = $2, category_id = $3, cousine_id = $4, description = $5, recipe = $6, time = $7 WHERE id = $1",
-		dishID, dishInput.Name, dishInput.CategoryId, dishInput.CousineId, dishInput.Description, dishInput.Recipe, dishInput.Time)
+		dishID, dishInput.Name, dishInput.CategoryID, dishInput.CousineID, dishInput.Description, dishInput.Recipe, dishInput.Time)
 	if err != nil {
 		return err
 	}
@@ -221,7 +206,7 @@ func (s *PostgreSQLStorage) UpdateDish(dishID int, dishInput *entity.DishInput) 
 	return nil
 }
 
-func (s *PostgreSQLStorage) DeleteDish(dishID int) error {
+func (s *DishPostgres) DeleteDish(dishID int) error {
 	tx, err := s.db.Begin()
 	if err != nil {
 		return err

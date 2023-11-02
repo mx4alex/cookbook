@@ -18,14 +18,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-	dishStorage, err := storage.New(appConfig.Postgres)
+	db, err := storage.New(appConfig.Postgres)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	cookInteractor := usecase.NewTaskInteractor(dishStorage)
+	storage := storage.NewStorage(db)
+	services := usecase.NewService(storage)
 
-	handlers := server.NewHandler(cookInteractor)
+	handlers := server.NewHandler(services)
 	srv := new(server.Server)
 	go func() {
 		if err := srv.Run(appConfig.HostAddr, handlers.InitRoutes()); err != nil {

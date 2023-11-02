@@ -9,12 +9,12 @@ import (
 )
 
 type Handler struct {
-	cookInteractor *usecase.CookInteractor
+	services *usecase.Service
 }
 
-func NewHandler(cookInteractor *usecase.CookInteractor) *Handler {
+func NewHandler(services *usecase.Service) *Handler {
 	return &Handler{
-		cookInteractor: cookInteractor,
+		services: services,
 	}
 }
 
@@ -34,13 +34,23 @@ func (h *Handler) InitRoutes() *gin.Engine {
 }
 
 func (h *Handler) GetAllDishesHandler(c *gin.Context) {
-	dishes, err := h.cookInteractor.GetAllDishes()
+	dishes, err := h.services.Dish.GetAllDishes()
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
+	var outputDishes []DishOutput
+	for _, dish := range dishes {
+		outputDish := DishOutput {
+			ID: dish.ID,
+			Name: dish.Name,
+			Description: dish.Description,
+			Time: dish.Time,
+		}
+		outputDishes = append(outputDishes, outputDish)
+	}
 
-	c.JSON(http.StatusOK, dishes)
+	c.JSON(http.StatusOK, outputDishes)
 }
 
 func (h *Handler) GetDishInfoHandler(c *gin.Context) {
@@ -50,7 +60,7 @@ func (h *Handler) GetDishInfoHandler(c *gin.Context) {
 		return
 	}
 
-	dishInfo, err := h.cookInteractor.GetDishInfo(dishID)
+	dishInfo, err := h.services.Dish.GetDishInfo(dishID)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -60,13 +70,13 @@ func (h *Handler) GetDishInfoHandler(c *gin.Context) {
 }
 
 func (h *Handler) AddDishHandler(c *gin.Context) {
-	dish := new(entity.DishInput)
+	dish := new(entity.Dish)
 
 	if err := c.BindJSON(dish); err != nil {
         c.String(http.StatusBadRequest, err.Error())
         return
     }
-	err := h.cookInteractor.AddDish(dish)
+	err := h.services.Dish.AddDish(dish)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -82,12 +92,12 @@ func (h *Handler) UpdateDishHandler(c *gin.Context) {
 		return
 	}
 
-	dish := new(entity.DishInput)
+	dish := new(entity.Dish)
 	if err := c.BindJSON(dish); err != nil {
         c.String(http.StatusBadRequest, err.Error())
         return
     }
-	err = h.cookInteractor.UpdateDish(dishID, dish)
+	err = h.services.Dish.UpdateDish(dishID, dish)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -103,7 +113,7 @@ func (h *Handler) DeleteDishHandler(c *gin.Context) {
 		return
 	}
 	
-	err = h.cookInteractor.DeleteDish(dishID)
+	err = h.services.Dish.DeleteDish(dishID)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
