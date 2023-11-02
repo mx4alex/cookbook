@@ -5,6 +5,7 @@ import (
 	"cookbook/internal/usecase"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type Handler struct {
@@ -23,8 +24,10 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	dishes := router.Group("/dish")
 	{
 		dishes.GET("/", h.GetAllDishesHandler)
-		dishes.GET("/:name", h.GetDishInfoHandler)
+		dishes.GET("/:id", h.GetDishInfoHandler)
 		dishes.POST("/", h.AddDishHandler)
+		dishes.PUT("/:id", h.UpdateDishHandler)
+		dishes.DELETE("/:id", h.DeleteDishHandler)
 	}
 
 	return router
@@ -41,7 +44,13 @@ func (h *Handler) GetAllDishesHandler(c *gin.Context) {
 }
 
 func (h *Handler) GetDishInfoHandler(c *gin.Context) {
-	dishInfo, err := h.cookInteractor.GetDishInfo(c.Param("name"))
+	dishID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	dishInfo, err := h.cookInteractor.GetDishInfo(dishID)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -64,4 +73,41 @@ func (h *Handler) AddDishHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, StatusResponse("Блюдо успешно добавлено"))
+}
+
+func (h *Handler) UpdateDishHandler(c *gin.Context) {
+	dishID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	dish := new(entity.DishInput)
+	if err := c.BindJSON(dish); err != nil {
+        c.String(http.StatusBadRequest, err.Error())
+        return
+    }
+	err = h.cookInteractor.UpdateDish(dishID, dish)
+	if err != nil {
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, StatusResponse("Блюдо успешно изменено"))
+}
+
+func (h *Handler) DeleteDishHandler(c *gin.Context) {
+	dishID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+		return
+	}
+	
+	err = h.cookInteractor.DeleteDish(dishID)
+	if err != nil {
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, StatusResponse("Блюдо успешно удалено"))
 }

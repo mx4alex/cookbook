@@ -1,22 +1,14 @@
 package entity
 
-type DishInStorage struct {
-	Id       	 int		`json:"id"`
-	Name   	 	 string 	`json:"name"`
-	CategoryId	 int 		`json:"category_id"`
-	CousineId	 int 		`json:"cousine_id"`
-	Description  string     `json:"description"`
-	Recipe 		 string     `json:"recipe"`
-	Time         int 		`json:"time"`
-}
-
 type DishOutput struct {
+	ID 			 int		`json:"id"`
 	Name   	 	 string 	`json:"name"`
 	Description  string     `json:"description"`
 	Time         int 		`json:"time"`
 }
 
 type DishInfo struct {
+	ID 			 int 			`json:"id"`
 	Name   	 	 string 		`json:"name"`
 	Description  string     	`json:"description"`
 	Recipe 		 string 	    `json:"recipe"`
@@ -31,7 +23,7 @@ type Ingredient struct {
 }
 
 type DishInput struct {
-	Id       	 int			`json:"id"`
+	ID       	 int			`json:"id"`
 	Name   	 	 string 		`json:"name"`
 	CategoryId	 int 			`json:"category_id"`
 	CousineId	 int 			`json:"cousine_id"`
