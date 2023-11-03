@@ -14,5 +14,17 @@ type Dish struct {
 	Description  string     	`json:"description"`
 	Recipe 		 string    	 	`json:"recipe"`
 	Time         int 			`json:"time"`
-	Ingredients []Ingredient 	`json:"ingredients"`
+	Ingredients  []Ingredient 	`json:"ingredients"`
+}
+
+type Cousine struct {
+	ID 			int		`json:"id"`
+	Name 		string 	`json:"name"`
+	Description string 	`json:"description"`
+}
+
+type Category struct {
+	ID 			int		`json:"id"`
+	Name 		string 	`json:"name"`
+	Description string 	`json:"description"`
 }

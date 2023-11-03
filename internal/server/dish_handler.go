@@ -2,36 +2,10 @@ package server
 
 import (
 	"cookbook/internal/entity"
-	"cookbook/internal/usecase"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
 )
-
-type Handler struct {
-	services *usecase.Service
-}
-
-func NewHandler(services *usecase.Service) *Handler {
-	return &Handler{
-		services: services,
-	}
-}
-
-func (h *Handler) InitRoutes() *gin.Engine {
-	router := gin.New()
-
-	dishes := router.Group("/dish")
-	{
-		dishes.GET("/", h.GetAllDishesHandler)
-		dishes.GET("/:id", h.GetDishInfoHandler)
-		dishes.POST("/", h.AddDishHandler)
-		dishes.PUT("/:id", h.UpdateDishHandler)
-		dishes.DELETE("/:id", h.DeleteDishHandler)
-	}
-
-	return router
-}
 
 func (h *Handler) GetAllDishesHandler(c *gin.Context) {
 	dishes, err := h.services.Dish.GetAllDishes()
@@ -41,13 +15,13 @@ func (h *Handler) GetAllDishesHandler(c *gin.Context) {
 	}
 	var outputDishes []DishOutput
 	for _, dish := range dishes {
-		outputDish := DishOutput {
+		dishInfo := DishOutput {
 			ID: dish.ID,
 			Name: dish.Name,
 			Description: dish.Description,
 			Time: dish.Time,
 		}
-		outputDishes = append(outputDishes, outputDish)
+		outputDishes = append(outputDishes, dishInfo)
 	}
 
 	c.JSON(http.StatusOK, outputDishes)

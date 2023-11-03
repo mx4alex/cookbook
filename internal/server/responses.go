@@ -3,8 +3,13 @@ package server
 type statusResponse struct {
 	Status string `json:"status"`
 }
+
 type errorResponse struct {
 	Message string `json:"message"`
+}
+
+type statusID struct {
+	ID int `json:"id"`
 }
 
 func StatusResponse(message string) statusResponse {

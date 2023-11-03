@@ -14,7 +14,10 @@ type Dish interface {
 }
 
 type Cousine interface {
-
+	GetCousines() ([]entity.Cousine, error)
+	AddCousine(*entity.Cousine) (int, error)
+	UpdateCousine(int, *entity.Cousine) error
+	DeleteCousine(int) error
 }
 
 type Category interface {
