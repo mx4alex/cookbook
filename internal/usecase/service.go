@@ -21,7 +21,10 @@ type Cousine interface {
 }
 
 type Category interface {
-
+	GetCategories() ([]entity.Category, error)
+	AddCategory(*entity.Category) (int, error)
+	UpdateCategory(int, *entity.Category) error
+	DeleteCategory(int) error
 }
 
 type Service struct {

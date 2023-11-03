@@ -35,5 +35,13 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		cousine.DELETE("/:id", h.DeleteCousineHandler)
 	}
 
+	category := router.Group("/category")
+	{
+		category.GET("/", h.GetCategoryHandler)
+		category.POST("/", h.AddCategoryHandler)
+		category.PUT("/:id", h.UpdateCategoryHandler)
+		category.DELETE("/:id", h.DeleteCategoryHandler)
+	}
+
 	return router
 }

@@ -29,4 +29,3 @@ func (s *CousineService) UpdateCousine(id int, cousine *entity.Cousine) error {
 func (s *CousineService) DeleteCousine(id int) error {
 	return s.st.DeleteCousine(id)
 }
-
