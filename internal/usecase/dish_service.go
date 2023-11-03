@@ -21,7 +21,7 @@ func (s *DishService) GetDishInfo(id int) (entity.Dish, error) {
 	return s.st.GetDishInfo(id)
 }
 
-func (s *DishService) AddDish(dish *entity.Dish) error {
+func (s *DishService) AddDish(dish *entity.Dish) (int, error) {
 	return s.st.AddDish(dish)
 }
 

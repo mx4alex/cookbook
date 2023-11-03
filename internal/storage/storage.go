@@ -8,7 +8,7 @@ import (
 type Dish interface {
 	GetAllDishes() ([]entity.Dish, error)
 	GetDishInfo(int) (entity.Dish, error)
-	AddDish(*entity.Dish) error
+	AddDish(*entity.Dish) (int, error)
 	UpdateDish(int, *entity.Dish) error
 	DeleteDish(int) error
 }

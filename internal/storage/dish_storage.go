@@ -97,23 +97,23 @@ func (s *DishPostgres) GetDishInfo(dishID int) (entity.Dish, error) {
     return dishInfo, nil
 }
 
-func (s *DishPostgres) AddDish(dishInput *entity.Dish) error {
+func (s *DishPostgres) AddDish(dishInput *entity.Dish) (int, error) {
 	tx, err := s.db.Begin()
 	if err != nil {
-		return err
+		return 0, err
 	}
 	defer tx.Rollback()
 
 	_, err = tx.Exec("INSERT INTO test.dish (name, category_id, cousine_id, description, recipe, time) VALUES ($1, $2, $3, $4, $5, $6)",
 		dishInput.Name, dishInput.CategoryID, dishInput.CousineID, dishInput.Description, dishInput.Recipe, dishInput.Time)
 	if err != nil {
-		return err
+		return 0, err
 	}
 
 	var dishID int
 	err = tx.QueryRow("SELECT id FROM test.dish WHERE name = $1", dishInput.Name).Scan(&dishID)
 	if err != nil {
-		return err
+		return 0, err
 	}
 
 	for _, ingredient := range dishInput.Ingredients {
@@ -121,35 +121,35 @@ func (s *DishPostgres) AddDish(dishInput *entity.Dish) error {
 		var exists bool
 		err := tx.QueryRow("SELECT EXISTS(SELECT * FROM test.ingredient WHERE name = $1)", ingredient.Name).Scan(&exists)
 		if err != nil {
-			return err
+			return 0, err
 		}
 		
 		if !exists {
 			_, err = tx.Exec("INSERT INTO test.ingredient (name, measure_unit, protein, fats, carbohydrates) VALUES ($1, $2, $3, $4, $5)",
 				ingredient.Name, ingredient.MeasureUnit, 0, 0, 0)
 			if err != nil {
-				return err
+				return 0, err
 			}
 		} 
 
 		var ingredientID int
 		err = tx.QueryRow("SELECT id FROM test.ingredient WHERE name = $1", ingredient.Name).Scan(&ingredientID)
 		if err != nil {
-			return err
+			return 0, err
 		}
 		_, err = tx.Exec("INSERT INTO test.dish_ingredient (dish_id, ingredient_id, quantity) VALUES ($1, $2, $3)",
 			dishID, ingredientID, ingredient.Quantity)
 		if err != nil {
-			return err
+			return 0, err
 		}
 	}
 
 	err = tx.Commit()
 	if err != nil {
-		return err
+		return 0, err
 	}
 
-	return nil
+	return dishID, nil
 }
 
 func (s *DishPostgres) UpdateDish(dishID int, dishInput *entity.Dish) error {

@@ -50,13 +50,18 @@ func (h *Handler) AddDishHandler(c *gin.Context) {
         c.String(http.StatusBadRequest, err.Error())
         return
     }
-	err := h.services.Dish.AddDish(dish)
+
+	id, err := h.services.Dish.AddDish(dish)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, StatusResponse("Блюдо успешно добавлено"))
+	message := statusID {
+		ID: id,
+	}
+
+	c.JSON(http.StatusOK, message)
 }
 
 func (h *Handler) UpdateDishHandler(c *gin.Context) {
