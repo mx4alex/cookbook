@@ -1,0 +1,643 @@
+basePath: /
+definitions:
+  entity.Category:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  entity.Cousine:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  entity.Dish:
+    properties:
+      category_id:
+        type: integer
+      cousine_id:
+        type: integer
+      description:
+        type: string
+      id:
+        type: integer
+      ingredients:
+        items:
+          $ref: '#/definitions/entity.Ingredient'
+        type: array
+      name:
+        type: string
+      recipe:
+        type: string
+      time:
+        type: integer
+    type: object
+  entity.Ingredient:
+    properties:
+      measure_unit:
+        type: string
+      name:
+        type: string
+      quantity:
+        type: integer
+    type: object
+  server.categoryInfo:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  server.cousineInfo:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  server.dishOutput:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      time:
+        type: integer
+    type: object
+  server.errorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  server.statusID:
+    properties:
+      id:
+        type: integer
+    type: object
+  server.statusResponse:
+    properties:
+      status:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API Server for cookbook
+  title: cookbook API
+  version: "1.0"
+paths:
+  /category/:
+    get:
+      consumes:
+      - application/json
+      description: get all categories
+      operationId: get-categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Category'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: GetCategories
+      tags:
+      - category
+    post:
+      consumes:
+      - application/json
+      description: add category
+      operationId: add-category
+      parameters:
+      - description: category information
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/server.categoryInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.statusID'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: AddCategory
+      tags:
+      - category
+  /category/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete category by id
+      operationId: delete-category
+      parameters:
+      - description: categoryID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: DeleteCategory
+      tags:
+      - category
+    put:
+      consumes:
+      - application/json
+      description: update category by id
+      operationId: update-category
+      parameters:
+      - description: categoryID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: category information
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/server.categoryInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: UpdateCategory
+      tags:
+      - category
+  /cousine/:
+    get:
+      consumes:
+      - application/json
+      description: get all cousines
+      operationId: get-cousines
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Cousine'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: GetCousines
+      tags:
+      - cousine
+    post:
+      consumes:
+      - application/json
+      description: add cousine
+      operationId: add-cousine
+      parameters:
+      - description: cousine information
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/server.cousineInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.statusID'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: AddCousine
+      tags:
+      - cousine
+  /cousine/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete cousine by id
+      operationId: delete-cousine
+      parameters:
+      - description: cousineID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: DeleteCousine
+      tags:
+      - cousine
+    put:
+      consumes:
+      - application/json
+      description: update cousine by id
+      operationId: update-cousine
+      parameters:
+      - description: cousineID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: cousine information
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/server.cousineInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: UpdateCousine
+      tags:
+      - cousine
+  /dish/:
+    get:
+      consumes:
+      - application/json
+      description: get all dishes
+      operationId: get-dishes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.dishOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: GetAllDishes
+      tags:
+      - dish
+    post:
+      consumes:
+      - application/json
+      description: add dish to cookbook
+      operationId: add-dish
+      parameters:
+      - description: dish information
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Dish'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.statusID'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: AddDish
+      tags:
+      - dish
+  /dish/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete dish by id
+      operationId: delete-dish
+      parameters:
+      - description: dishID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: DeleteDish
+      tags:
+      - dish
+    get:
+      consumes:
+      - application/json
+      description: get dish information by id
+      operationId: get-dish-info
+      parameters:
+      - description: dishID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Dish'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: GetDishInfo
+      tags:
+      - dish
+    put:
+      consumes:
+      - application/json
+      description: update dish information by id
+      operationId: update-dish-info
+      parameters:
+      - description: dishID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: dish information
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Dish'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: UpdateDish
+      tags:
+      - dish
+  /dish/category/{categoryID}:
+    get:
+      consumes:
+      - application/json
+      description: get dishes by categoryID
+      operationId: get-category-dishes
+      parameters:
+      - description: categoryID
+        in: path
+        name: categoryID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.dishOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: GetDishesByCategory
+      tags:
+      - dish
+  /dish/cousine/{cousineID}:
+    get:
+      consumes:
+      - application/json
+      description: get dishes by cousineID
+      operationId: get-cousine-dishes
+      parameters:
+      - description: cousineID
+        in: path
+        name: cousineID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.dishOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: GetDishesByCousine
+      tags:
+      - dish
+  /dish/cousine/category/{cousineID}/{categoryID}:
+    get:
+      consumes:
+      - application/json
+      description: get dishes by cousineID and categoryID
+      operationId: get-cousine-category-dishes
+      parameters:
+      - description: cousineID
+        in: path
+        name: cousineID
+        required: true
+        type: integer
+      - description: categoryID
+        in: path
+        name: categoryID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.dishOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: GetDishesByCousineAndCategory
+      tags:
+      - dish
+swagger: "2.0"

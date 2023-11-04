@@ -12,15 +12,25 @@ type statusID struct {
 	ID int `json:"id"`
 }
 
-func StatusResponse(message string) statusResponse {
+func newStatusResponse(message string) statusResponse {
 	return statusResponse{
         Status: message,
     }
 }
 
-type DishOutput struct {
+type dishOutput struct {
 	ID 			 int		`json:"id"`
 	Name   	 	 string 	`json:"name"`
 	Description  string     `json:"description"`
 	Time         int 		`json:"time"`
+}
+
+type categoryInfo struct {
+	Name 		string 	`json:"name"`
+	Description string 	`json:"description"`
+}
+
+type cousineInfo struct {
+	Name 		string 	`json:"name"`
+	Description string 	`json:"description"`
 }

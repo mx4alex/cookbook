@@ -11,6 +11,12 @@ import (
 	"context"
 )
 
+// @title cookbook API
+// @version 1.0
+// @description API Server for cookbook
+
+// @host localhost:8080
+// @BasePath /
 
 func main() {
 	appConfig, err := config.New()

@@ -4,6 +4,9 @@ import (
 	"cookbook/internal/usecase"
 	"github.com/gin-gonic/gin"
 	"time"
+	"github.com/swaggo/gin-swagger"
+	"github.com/swaggo/files"
+	_ "cookbook/docs"
 )
 
 type Handler struct {
@@ -21,6 +24,8 @@ func NewHandler(services *usecase.Service, timeout time.Duration) *Handler {
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	dishes := router.Group("/dish")
 	{
 		dishes.GET("/", h.GetAllDishesHandler)
@@ -29,8 +34,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		dishes.PUT("/:id", h.UpdateDishHandler)
 		dishes.DELETE("/:id", h.DeleteDishHandler)
 
-		dishes.GET("/cousine/:id", h.GetDishCousineHandler)
-		dishes.GET("/category/:id", h.GetDishCategoryHandler)
+		dishes.GET("/cousine/:cousineID", h.GetDishCousineHandler)
+		dishes.GET("/category/:categoryID", h.GetDishCategoryHandler)
 		dishes.GET("/cousine/category/:cousineID/:categoryID", h.GetDishCousineCategoryHandler)
 	}
 

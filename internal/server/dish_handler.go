@@ -8,6 +8,16 @@ import (
 	"context"
 )
 
+// @Summary 	GetAllDishes
+// @Tags 		dish
+// @Description get all dishes
+// @ID 			get-dishes
+// @Accept  	json
+// @Produce  	json
+// @Success 	200 {object} dishOutput
+// @Failure 	400,404 {object} errorResponse
+// @Failure 	default {object} errorResponse
+// @Router /dish/ [get]
 func (h *Handler) GetAllDishesHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
 	defer cancel()
@@ -17,9 +27,9 @@ func (h *Handler) GetAllDishesHandler(c *gin.Context) {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
-	var outputDishes []DishOutput
+	var outputDishes []dishOutput
 	for _, dish := range dishes {
-		dishInfo := DishOutput {
+		dishInfo := dishOutput {
 			ID: dish.ID,
 			Name: dish.Name,
 			Description: dish.Description,
@@ -31,6 +41,18 @@ func (h *Handler) GetAllDishesHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, outputDishes)
 }
 
+
+// @Summary 	GetDishInfo
+// @Tags 		dish
+// @Description get dish information by id
+// @ID 			get-dish-info
+// @Accept  	json
+// @Produce  	json
+// @Param 		id path int true "dishID"
+// @Success 	200 {object} entity.Dish
+// @Failure 	400,404 {object} errorResponse
+// @Failure 	default {object} errorResponse
+// @Router /dish/{id} [get]
 func (h *Handler) GetDishInfoHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
 	defer cancel()
@@ -50,6 +72,17 @@ func (h *Handler) GetDishInfoHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, dishInfo)
 }
 
+// @Summary 	AddDish
+// @Tags 		dish
+// @Description add dish to cookbook
+// @ID 			add-dish
+// @Accept  	json
+// @Produce  	json
+// @Param 		input body entity.Dish true "dish information"
+// @Success 	200 {object} statusID
+// @Failure 	400,404 {object} errorResponse
+// @Failure 	default {object} errorResponse
+// @Router /dish/ [post]
 func (h *Handler) AddDishHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
 	defer cancel()
@@ -74,6 +107,18 @@ func (h *Handler) AddDishHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, message)
 }
 
+// @Summary 	UpdateDish
+// @Tags 		dish
+// @Description update dish information by id
+// @ID 			update-dish-info
+// @Accept  	json
+// @Produce  	json
+// @Param 		id path int true "dishID"
+// @Param 		input body entity.Dish true "dish information"
+// @Success 	200 {object} statusResponse
+// @Failure 	400,404 {object} errorResponse
+// @Failure 	default {object} errorResponse
+// @Router /dish/{id} [put]
 func (h *Handler) UpdateDishHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
 	defer cancel()
@@ -95,9 +140,20 @@ func (h *Handler) UpdateDishHandler(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, StatusResponse("Блюдо успешно изменено"))
+	c.JSON(http.StatusOK, newStatusResponse("Блюдо успешно изменено"))
 }
 
+// @Summary 	DeleteDish
+// @Tags 		dish
+// @Description delete dish by id
+// @ID 			delete-dish
+// @Accept  	json
+// @Produce  	json
+// @Param 		id path int true "dishID"
+// @Success 	200 {object} statusResponse
+// @Failure 	400,404 {object} errorResponse
+// @Failure 	default {object} errorResponse
+// @Router /dish/{id} [delete]
 func (h *Handler) DeleteDishHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
 	defer cancel()
@@ -114,15 +170,25 @@ func (h *Handler) DeleteDishHandler(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, StatusResponse("Блюдо успешно удалено"))
+	c.JSON(http.StatusOK, newStatusResponse("Блюдо успешно удалено"))
 }
 
-
+// @Summary 	GetDishesByCousine
+// @Tags 		dish
+// @Description get dishes by cousineID
+// @ID 			get-cousine-dishes
+// @Accept  	json
+// @Produce  	json
+// @Param 		cousineID path int true "cousineID"
+// @Success 	200 {object} dishOutput
+// @Failure 	400,404 {object} errorResponse
+// @Failure 	default {object} errorResponse
+// @Router /dish/cousine/{cousineID} [get]
 func (h *Handler) GetDishCousineHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
 	defer cancel()
 
-	cousineID, err := strconv.Atoi(c.Param("id"))
+	cousineID, err := strconv.Atoi(c.Param("cousineID"))
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
 		return
@@ -134,9 +200,9 @@ func (h *Handler) GetDishCousineHandler(c *gin.Context) {
 		return
 	}
 
-	var outputDishes []DishOutput
+	var outputDishes []dishOutput
 	for _, dish := range dishes {
-		dishInfo := DishOutput {
+		dishInfo := dishOutput {
 			ID: dish.ID,
 			Name: dish.Name,
 			Description: dish.Description,
@@ -148,11 +214,22 @@ func (h *Handler) GetDishCousineHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, outputDishes)
 }
 
+// @Summary 	GetDishesByCategory
+// @Tags 		dish
+// @Description get dishes by categoryID
+// @ID 			get-category-dishes
+// @Accept  	json
+// @Produce  	json
+// @Param 		categoryID path int true "categoryID"
+// @Success 	200 {object} dishOutput
+// @Failure 	400,404 {object} errorResponse
+// @Failure 	default {object} errorResponse
+// @Router /dish/category/{categoryID} [get]
 func (h *Handler) GetDishCategoryHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
 	defer cancel()
 
-	categoryID, err := strconv.Atoi(c.Param("id"))
+	categoryID, err := strconv.Atoi(c.Param("categoryID"))
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
 		return
@@ -164,9 +241,9 @@ func (h *Handler) GetDishCategoryHandler(c *gin.Context) {
 		return
 	}
 	
-	var outputDishes []DishOutput
+	var outputDishes []dishOutput
 	for _, dish := range dishes {
-		dishInfo := DishOutput {
+		dishInfo := dishOutput {
 			ID: dish.ID,
 			Name: dish.Name,
 			Description: dish.Description,
@@ -178,6 +255,18 @@ func (h *Handler) GetDishCategoryHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, outputDishes)
 }
 
+// @Summary 	GetDishesByCousineAndCategory
+// @Tags 		dish
+// @Description get dishes by cousineID and categoryID
+// @ID 			get-cousine-category-dishes
+// @Accept  	json
+// @Produce  	json
+// @Param 		cousineID path int true "cousineID"
+// @Param 		categoryID path int true "categoryID"
+// @Success 	200 {object} dishOutput
+// @Failure 	400,404 {object} errorResponse
+// @Failure 	default {object} errorResponse
+// @Router /dish/cousine/category/{cousineID}/{categoryID} [get]
 func (h *Handler) GetDishCousineCategoryHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
 	defer cancel()
@@ -200,9 +289,9 @@ func (h *Handler) GetDishCousineCategoryHandler(c *gin.Context) {
 		return
 	}
 	
-	var outputDishes []DishOutput
+	var outputDishes []dishOutput
 	for _, dish := range dishes {
-		dishInfo := DishOutput {
+		dishInfo := dishOutput {
 			ID: dish.ID,
 			Name: dish.Name,
 			Description: dish.Description,

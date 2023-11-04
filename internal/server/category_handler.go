@@ -8,6 +8,16 @@ import (
 	"context"
 )
 
+// @Summary 	GetCategories
+// @Tags 		category
+// @Description get all categories
+// @ID 			get-categories
+// @Accept  	json
+// @Produce  	json
+// @Success 	200 {object} entity.Category
+// @Failure 	400,404 {object} errorResponse
+// @Failure 	default {object} errorResponse
+// @Router /category/ [get]
 func (h *Handler) GetCategoryHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
 	defer cancel()
@@ -30,6 +40,17 @@ func (h *Handler) GetCategoryHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, outputCategories)
 }
 
+// @Summary 	AddCategory
+// @Tags 		category
+// @Description add category
+// @ID 			add-category
+// @Accept  	json
+// @Produce  	json
+// @Param 		input body categoryInfo true "category information"
+// @Success 	200 {object} statusID
+// @Failure 	400,404 {object} errorResponse
+// @Failure 	default {object} errorResponse
+// @Router /category/ [post]
 func (h *Handler) AddCategoryHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
 	defer cancel()
@@ -54,6 +75,18 @@ func (h *Handler) AddCategoryHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, message)
 }
 
+// @Summary 	UpdateCategory
+// @Tags 		category
+// @Description update category by id
+// @ID 			update-category
+// @Accept  	json
+// @Produce  	json
+// @Param 		id path int true "categoryID"
+// @Param 		input body categoryInfo true "category information"
+// @Success 	200 {object} statusResponse
+// @Failure 	400,404 {object} errorResponse
+// @Failure 	default {object} errorResponse
+// @Router /category/{id} [put]
 func (h *Handler) UpdateCategoryHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
 	defer cancel()
@@ -76,9 +109,20 @@ func (h *Handler) UpdateCategoryHandler(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, StatusResponse("Категория успешно изменена"))
+	c.JSON(http.StatusOK, newStatusResponse("Категория успешно изменена"))
 }
 
+// @Summary 	DeleteCategory
+// @Tags 		category
+// @Description delete category by id
+// @ID 			delete-category
+// @Accept  	json
+// @Produce  	json
+// @Param 		id path int true "categoryID"
+// @Success 	200 {object} statusResponse
+// @Failure 	400,404 {object} errorResponse
+// @Failure 	default {object} errorResponse
+// @Router /category/{id} [delete]
 func (h *Handler) DeleteCategoryHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
 	defer cancel()
@@ -95,5 +139,5 @@ func (h *Handler) DeleteCategoryHandler(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, StatusResponse("Категория успешно удалена"))
+	c.JSON(http.StatusOK, newStatusResponse("Категория успешно удалена"))
 }
