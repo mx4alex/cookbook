@@ -100,3 +100,91 @@ func (h *Handler) DeleteDishHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, StatusResponse("Блюдо успешно удалено"))
 }
+
+
+func (h *Handler) GetDishCousineHandler(c *gin.Context) {
+	cousineID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	dishes, err := h.services.Dish.GetDishCousine(cousineID)
+	if err != nil {
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	var outputDishes []DishOutput
+	for _, dish := range dishes {
+		dishInfo := DishOutput {
+			ID: dish.ID,
+			Name: dish.Name,
+			Description: dish.Description,
+			Time: dish.Time,
+		}
+		outputDishes = append(outputDishes, dishInfo)
+	}
+
+	c.JSON(http.StatusOK, outputDishes)
+}
+
+func (h *Handler) GetDishCategoryHandler(c *gin.Context) {
+	categoryID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	dishes, err := h.services.Dish.GetDishCategory(categoryID)
+	if err != nil {
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+	
+	var outputDishes []DishOutput
+	for _, dish := range dishes {
+		dishInfo := DishOutput {
+			ID: dish.ID,
+			Name: dish.Name,
+			Description: dish.Description,
+			Time: dish.Time,
+		}
+		outputDishes = append(outputDishes, dishInfo)
+	}
+
+	c.JSON(http.StatusOK, outputDishes)
+}
+
+func (h *Handler) GetDishCousineCategoryHandler(c *gin.Context) {
+	cousineID, err := strconv.Atoi(c.Param("cousineID"))
+	if err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	categoryID, err := strconv.Atoi(c.Param("categoryID"))
+	if err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	dishes, err := h.services.Dish.GetDishCousineCategory(cousineID, categoryID)
+	if err != nil {
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+	
+	var outputDishes []DishOutput
+	for _, dish := range dishes {
+		dishInfo := DishOutput {
+			ID: dish.ID,
+			Name: dish.Name,
+			Description: dish.Description,
+			Time: dish.Time,
+		}
+		outputDishes = append(outputDishes, dishInfo)
+	}
+
+	c.JSON(http.StatusOK, outputDishes)
+}

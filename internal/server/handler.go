@@ -25,6 +25,10 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		dishes.POST("/", h.AddDishHandler)
 		dishes.PUT("/:id", h.UpdateDishHandler)
 		dishes.DELETE("/:id", h.DeleteDishHandler)
+
+		dishes.GET("/cousine/:id", h.GetDishCousineHandler)
+		dishes.GET("/category/:id", h.GetDishCategoryHandler)
+		dishes.GET("/cousine/category/:cousineID/:categoryID", h.GetDishCousineCategoryHandler)
 	}
 
 	cousine := router.Group("/cousine")

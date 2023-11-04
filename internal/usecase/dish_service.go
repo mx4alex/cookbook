@@ -32,3 +32,15 @@ func (s *DishService) UpdateDish(id int, dish *entity.Dish) error {
 func (s *DishService) DeleteDish(id int) error {
 	return s.st.DeleteDish(id)
 }
+
+func (s *DishService) GetDishCousine(id int) ([]entity.Dish, error) {
+	return s.st.GetDishCousine(id)
+}
+
+func (s *DishService) GetDishCategory(id int) ([]entity.Dish, error) {
+	return s.st.GetDishCategory(id)
+}
+
+func (s *DishService) GetDishCousineCategory(cousineID, categoryID int) ([]entity.Dish, error) {
+	return s.st.GetDishCousineCategory(cousineID, categoryID)
+}

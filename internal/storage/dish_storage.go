@@ -231,3 +231,95 @@ func (s *DishPostgres) DeleteDish(dishID int) error {
 	return nil
 }
 
+func (s *DishPostgres) GetDishCousine(cousineID int) ([]entity.Dish, error) {
+	rows, err := s.db.Query("SELECT id, name, description, time FROM test.dish WHERE cousine_id = $1", cousineID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var dishes []entity.Dish
+	for rows.Next() {
+		var name, description string
+		var dishID, time int
+
+		err := rows.Scan(&dishID, &name, &description, &time)
+		if err != nil {
+			return nil, err
+		}
+
+		dish := entity.Dish{
+			ID:			 dishID,
+			Name: 		 name,
+			Description: description,
+			Time: 		 time,
+		}
+
+		dishes = append(dishes, dish)
+
+	}
+
+	return dishes, nil
+}
+
+func (s *DishPostgres) GetDishCategory(categoryID int) ([]entity.Dish, error) {
+	rows, err := s.db.Query("SELECT id, name, description, time FROM test.dish WHERE category_id = $1", categoryID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var dishes []entity.Dish
+	for rows.Next() {
+		var name, description string
+		var dishID, time int
+
+		err := rows.Scan(&dishID, &name, &description, &time)
+		if err != nil {
+			return nil, err
+		}
+
+		dish := entity.Dish{
+			ID:			 dishID,
+			Name: 		 name,
+			Description: description,
+			Time: 		 time,
+		}
+
+		dishes = append(dishes, dish)
+
+	}
+
+	return dishes, nil
+}
+
+func (s *DishPostgres) GetDishCousineCategory(cousineID, categoryID int) ([]entity.Dish, error) {
+	rows, err := s.db.Query("SELECT id, name, description, time FROM test.dish WHERE cousine_id = $1 AND category_id = $2", cousineID, categoryID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var dishes []entity.Dish
+	for rows.Next() {
+		var name, description string
+		var dishID, time int
+
+		err := rows.Scan(&dishID, &name, &description, &time)
+		if err != nil {
+			return nil, err
+		}
+
+		dish := entity.Dish{
+			ID:			 dishID,
+			Name: 		 name,
+			Description: description,
+			Time: 		 time,
+		}
+
+		dishes = append(dishes, dish)
+
+	}
+
+	return dishes, nil
+}

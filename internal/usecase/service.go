@@ -11,6 +11,10 @@ type Dish interface {
 	AddDish(*entity.Dish) (int, error)
 	UpdateDish(int, *entity.Dish) error
 	DeleteDish(int) error
+	
+	GetDishCousine(int) ([]entity.Dish, error)
+	GetDishCategory(int) ([]entity.Dish, error)
+	GetDishCousineCategory(int, int) ([]entity.Dish, error)
 }
 
 type Cousine interface {
