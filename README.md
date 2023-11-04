@@ -9,8 +9,8 @@
 - `POST /dish/` добавляет новое блюдо в кулинарную книгу
 - `PUT /dish/{id}` изменяет информацию о блюде
 - `DELETE /dish/{id}` удаляет указанное блюдо
-- `GET /dish/cousine/{id}` возвращает блюда из указанной кухни
-- `GET /dish/category/{id}` возвращает блюда из указанной категории
+- `GET /dish/cousine/{cousineID}` возвращает блюда из указанной кухни
+- `GET /dish/category/{categoryID}` возвращает блюда из указанной категории
 - `GET /dish/cousine/category/{cousineID}/{categoryID}` возвращает блюда из указанной кухни и категории
 
 ### Кухня
