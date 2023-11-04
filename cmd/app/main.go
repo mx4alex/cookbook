@@ -26,7 +26,7 @@ func main() {
 	storage := storage.NewStorage(db)
 	services := usecase.NewService(storage)
 
-	handlers := server.NewHandler(services)
+	handlers := server.NewHandler(services, appConfig.HandleTimeout)
 	srv := new(server.Server)
 	go func() {
 		if err := srv.Run(appConfig.HostAddr, handlers.InitRoutes()); err != nil {

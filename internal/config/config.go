@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/spf13/viper"
+	"time"
 )
 
 const (
@@ -10,8 +11,9 @@ const (
 )
 
 type Config struct {
-	HostAddr 	string 			`mapstructure:"host_addr"`
-	Postgres 	PostgresConfig  `mapstructure:"postgres"`
+	HostAddr 	  string 		  `mapstructure:"host_addr"`
+	HandleTimeout time.Duration	  `mapstructure:"handle_timeout"`
+	Postgres 	  PostgresConfig  `mapstructure:"postgres"`
 }
 
 type PostgresConfig struct {

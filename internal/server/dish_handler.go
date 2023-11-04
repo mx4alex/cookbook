@@ -5,10 +5,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+	"context"
 )
 
 func (h *Handler) GetAllDishesHandler(c *gin.Context) {
-	dishes, err := h.services.Dish.GetAllDishes()
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
+	dishes, err := h.services.Dish.GetAllDishes(ctx)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -28,13 +32,16 @@ func (h *Handler) GetAllDishesHandler(c *gin.Context) {
 }
 
 func (h *Handler) GetDishInfoHandler(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
 	dishID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	dishInfo, err := h.services.Dish.GetDishInfo(dishID)
+	dishInfo, err := h.services.Dish.GetDishInfo(ctx, dishID)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -44,6 +51,9 @@ func (h *Handler) GetDishInfoHandler(c *gin.Context) {
 }
 
 func (h *Handler) AddDishHandler(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
 	dish := new(entity.Dish)
 
 	if err := c.BindJSON(dish); err != nil {
@@ -51,7 +61,7 @@ func (h *Handler) AddDishHandler(c *gin.Context) {
         return
     }
 
-	id, err := h.services.Dish.AddDish(dish)
+	id, err := h.services.Dish.AddDish(ctx, dish)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -65,6 +75,9 @@ func (h *Handler) AddDishHandler(c *gin.Context) {
 }
 
 func (h *Handler) UpdateDishHandler(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
 	dishID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
@@ -76,7 +89,7 @@ func (h *Handler) UpdateDishHandler(c *gin.Context) {
         c.String(http.StatusBadRequest, err.Error())
         return
     }
-	err = h.services.Dish.UpdateDish(dishID, dish)
+	err = h.services.Dish.UpdateDish(ctx, dishID, dish)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -86,13 +99,16 @@ func (h *Handler) UpdateDishHandler(c *gin.Context) {
 }
 
 func (h *Handler) DeleteDishHandler(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
 	dishID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
 	
-	err = h.services.Dish.DeleteDish(dishID)
+	err = h.services.Dish.DeleteDish(ctx, dishID)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -103,13 +119,16 @@ func (h *Handler) DeleteDishHandler(c *gin.Context) {
 
 
 func (h *Handler) GetDishCousineHandler(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
 	cousineID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	dishes, err := h.services.Dish.GetDishCousine(cousineID)
+	dishes, err := h.services.Dish.GetDishCousine(ctx, cousineID)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -130,13 +149,16 @@ func (h *Handler) GetDishCousineHandler(c *gin.Context) {
 }
 
 func (h *Handler) GetDishCategoryHandler(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
 	categoryID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	dishes, err := h.services.Dish.GetDishCategory(categoryID)
+	dishes, err := h.services.Dish.GetDishCategory(ctx, categoryID)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -157,6 +179,9 @@ func (h *Handler) GetDishCategoryHandler(c *gin.Context) {
 }
 
 func (h *Handler) GetDishCousineCategoryHandler(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
 	cousineID, err := strconv.Atoi(c.Param("cousineID"))
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
@@ -169,7 +194,7 @@ func (h *Handler) GetDishCousineCategoryHandler(c *gin.Context) {
 		return
 	}
 
-	dishes, err := h.services.Dish.GetDishCousineCategory(cousineID, categoryID)
+	dishes, err := h.services.Dish.GetDishCousineCategory(ctx, cousineID, categoryID)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return

@@ -4,6 +4,7 @@ import (
 	"cookbook/internal/entity"
 	"database/sql"
 	_ "github.com/lib/pq"
+	"context"
 )
 
 type CategoryPostgres struct {
@@ -14,8 +15,8 @@ func NewCategoryPostgres(db *sql.DB) *CategoryPostgres {
 	return &CategoryPostgres{db: db}
 }
 
-func (s *CategoryPostgres) GetCategories() ([]entity.Category, error) {
-	rows, err := s.db.Query("SELECT id, name, description FROM test.category")
+func (s *CategoryPostgres) GetCategories(ctx context.Context) ([]entity.Category, error) {
+	rows, err := s.db.QueryContext(ctx, "SELECT id, name, description FROM test.category")
 	if err != nil {
 		return nil, err
 	}
@@ -44,8 +45,8 @@ func (s *CategoryPostgres) GetCategories() ([]entity.Category, error) {
 	return categories, nil
 }
 
-func (s *CategoryPostgres) AddCategory(category *entity.Category) (int, error) {
-	_, err := s.db.Exec("INSERT INTO test.category (name, description) VALUES ($1, $2)", category.Name, category.Description)
+func (s *CategoryPostgres) AddCategory(ctx context.Context, category *entity.Category) (int, error) {
+	_, err := s.db.ExecContext(ctx, "INSERT INTO test.category (name, description) VALUES ($1, $2)", category.Name, category.Description)
 	if err != nil {
 		return 0, err
 	}
@@ -59,8 +60,8 @@ func (s *CategoryPostgres) AddCategory(category *entity.Category) (int, error) {
 	return categoryID, nil
 }
 
-func (s *CategoryPostgres) UpdateCategory(categoryID int, category *entity.Category) error {
-	_, err := s.db.Exec("UPDATE test.category SET name = $2, description = $3 WHERE id = $1", categoryID, category.Name, category.Description)
+func (s *CategoryPostgres) UpdateCategory(ctx context.Context, categoryID int, category *entity.Category) error {
+	_, err := s.db.ExecContext(ctx, "UPDATE test.category SET name = $2, description = $3 WHERE id = $1", categoryID, category.Name, category.Description)
 	if err != nil {
 		return err
 	}
@@ -68,8 +69,8 @@ func (s *CategoryPostgres) UpdateCategory(categoryID int, category *entity.Categ
 	return nil
 }
 
-func (s *CategoryPostgres) DeleteCategory(categoryID int) error {
-	_, err := s.db.Exec("DELETE FROM test.category WHERE id = $1", categoryID)
+func (s *CategoryPostgres) DeleteCategory(ctx context.Context, categoryID int) error {
+	_, err := s.db.ExecContext(ctx, "DELETE FROM test.category WHERE id = $1", categoryID)
 	if err != nil {
 		return err
 	}

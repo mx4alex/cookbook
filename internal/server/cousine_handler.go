@@ -5,10 +5,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"strconv"
 	"net/http"
+	"context"
 )
 
 func (h *Handler) GetCousineHandler(c *gin.Context) {
-	cousines, err := h.services.Cousine.GetCousines()
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
+	cousines, err := h.services.Cousine.GetCousines(ctx)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -27,6 +31,9 @@ func (h *Handler) GetCousineHandler(c *gin.Context) {
 }
 
 func (h *Handler) AddCousineHandler(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
 	cousine := new(entity.Cousine)
 
 	if err := c.BindJSON(cousine); err != nil {
@@ -34,7 +41,7 @@ func (h *Handler) AddCousineHandler(c *gin.Context) {
         return
     }
 
-	id, err := h.services.Cousine.AddCousine(cousine)
+	id, err := h.services.Cousine.AddCousine(ctx, cousine)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -48,6 +55,9 @@ func (h *Handler) AddCousineHandler(c *gin.Context) {
 }
 
 func (h *Handler) UpdateCousineHandler(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
 	cousineID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
@@ -60,7 +70,7 @@ func (h *Handler) UpdateCousineHandler(c *gin.Context) {
         return
     }
 	
-	err = h.services.Cousine.UpdateCousine(cousineID, cousine)
+	err = h.services.Cousine.UpdateCousine(ctx, cousineID, cousine)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -70,13 +80,16 @@ func (h *Handler) UpdateCousineHandler(c *gin.Context) {
 }
 
 func (h *Handler) DeleteCousineHandler(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
 	cousineID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
 	
-	err = h.services.Cousine.DeleteCousine(cousineID)
+	err = h.services.Cousine.DeleteCousine(ctx, cousineID)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return

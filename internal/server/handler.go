@@ -3,15 +3,18 @@ package server
 import (
 	"cookbook/internal/usecase"
 	"github.com/gin-gonic/gin"
+	"time"
 )
 
 type Handler struct {
 	services *usecase.Service
+	handleTimeout time.Duration
 }
 
-func NewHandler(services *usecase.Service) *Handler {
+func NewHandler(services *usecase.Service, timeout time.Duration) *Handler {
 	return &Handler{
 		services: services,
+		handleTimeout: timeout,
 	}
 }
 

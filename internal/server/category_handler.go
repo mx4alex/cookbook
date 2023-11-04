@@ -5,10 +5,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"strconv"
 	"net/http"
+	"context"
 )
 
 func (h *Handler) GetCategoryHandler(c *gin.Context) {
-	categories, err := h.services.Category.GetCategories()
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
+	categories, err := h.services.Category.GetCategories(ctx)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -27,6 +31,9 @@ func (h *Handler) GetCategoryHandler(c *gin.Context) {
 }
 
 func (h *Handler) AddCategoryHandler(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
 	category := new(entity.Category)
 
 	if err := c.BindJSON(category); err != nil {
@@ -34,7 +41,7 @@ func (h *Handler) AddCategoryHandler(c *gin.Context) {
         return
     }
 
-	id, err := h.services.Category.AddCategory(category)
+	id, err := h.services.Category.AddCategory(ctx, category)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -48,6 +55,9 @@ func (h *Handler) AddCategoryHandler(c *gin.Context) {
 }
 
 func (h *Handler) UpdateCategoryHandler(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
 	categoryID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
@@ -60,7 +70,7 @@ func (h *Handler) UpdateCategoryHandler(c *gin.Context) {
         return
     }
 	
-	err = h.services.Category.UpdateCategory(categoryID, category)
+	err = h.services.Category.UpdateCategory(ctx, categoryID, category)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -70,13 +80,16 @@ func (h *Handler) UpdateCategoryHandler(c *gin.Context) {
 }
 
 func (h *Handler) DeleteCategoryHandler(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
 	categoryID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
 	
-	err = h.services.Category.DeleteCategory(categoryID)
+	err = h.services.Category.DeleteCategory(ctx, categoryID)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
