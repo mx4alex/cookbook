@@ -23,10 +23,10 @@ func (s *CousinePostgres) GetCousines(ctx context.Context) ([]entity.Cousine, er
 	defer rows.Close()
 
 	var cousines []entity.Cousine
-	for rows.Next() {
-		var name, description string
-		var cousineID int
+	var name, description string
+	var cousineID int
 
+	for rows.Next() {
 		err := rows.Scan(&cousineID, &name, &description)
 		if err != nil {
 			return nil, err

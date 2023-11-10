@@ -23,10 +23,10 @@ func (s *CategoryPostgres) GetCategories(ctx context.Context) ([]entity.Category
 	defer rows.Close()
 
 	var categories []entity.Category
-	for rows.Next() {
-		var name, description string
-		var categoryID int
+	var name, description string
+	var categoryID int
 
+	for rows.Next() {
 		err := rows.Scan(&categoryID, &name, &description)
 		if err != nil {
 			return nil, err

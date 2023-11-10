@@ -23,10 +23,10 @@ func (s *DishPostgres) GetAllDishes(ctx context.Context) ([]entity.Dish, error) 
 	defer rows.Close()
 
 	var dishes []entity.Dish
-	for rows.Next() {
-		var name, description string
-		var dishID, time int
+	var name, description string
+	var dishID, time int
 
+	for rows.Next() {
 		err := rows.Scan(&dishID, &name, &description, &time)
 		if err != nil {
 			return nil, err
@@ -65,11 +65,10 @@ func (s *DishPostgres) GetDishInfo(ctx context.Context, dishID int) (entity.Dish
     defer ingredientRows.Close()
 
     var ingredients []entity.Ingredient
+	var ingredientName, measureUnit string
+	var quantity int
 
     for ingredientRows.Next() {
-        var ingredientName, measureUnit string
-        var quantity int
-
         err := ingredientRows.Scan(&ingredientName, &measureUnit, &quantity)
         if err != nil {
             return entity.Dish{}, err
@@ -240,10 +239,10 @@ func (s *DishPostgres) GetDishCousine(ctx context.Context, cousineID int) ([]ent
 	defer rows.Close()
 
 	var dishes []entity.Dish
-	for rows.Next() {
-		var name, description string
-		var dishID, time int
+	var name, description string
+	var dishID, time int
 
+	for rows.Next() {
 		err := rows.Scan(&dishID, &name, &description, &time)
 		if err != nil {
 			return nil, err
@@ -271,10 +270,10 @@ func (s *DishPostgres) GetDishCategory(ctx context.Context, categoryID int) ([]e
 	defer rows.Close()
 
 	var dishes []entity.Dish
-	for rows.Next() {
-		var name, description string
-		var dishID, time int
+	var name, description string
+	var dishID, time int
 
+	for rows.Next() {
 		err := rows.Scan(&dishID, &name, &description, &time)
 		if err != nil {
 			return nil, err
@@ -302,10 +301,10 @@ func (s *DishPostgres) GetDishCousineCategory(ctx context.Context, cousineID, ca
 	defer rows.Close()
 
 	var dishes []entity.Dish
-	for rows.Next() {
-		var name, description string
-		var dishID, time int
+	var name, description string
+	var dishID, time int
 
+	for rows.Next() {
 		err := rows.Scan(&dishID, &name, &description, &time)
 		if err != nil {
 			return nil, err
