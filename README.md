@@ -12,6 +12,7 @@
 - `GET /dish/cousine/{cousineID}` возвращает блюда из указанной кухни
 - `GET /dish/category/{categoryID}` возвращает блюда из указанной категории
 - `GET /dish/cousine/category/{cousineID}/{categoryID}` возвращает блюда из указанной кухни и категории
+- `GET /dish/search/` возвращает блюда по их названию или ингредиентам 
 
 ### Кухня
 - `GET /cousine/` возвращает все кухни кулинарной книги
@@ -153,6 +154,32 @@
 * Метод: `DELETE`
 * Эндпоинт: `http://localhost:8080/dish/{id}`
 
+#### DishSearch
+* Метод: `GET`
+* Эндпоинт: `http://localhost:8080/dish/search/`
+* Формат запроса:
+```json
+{
+    "text": "Мохито, тирамису"
+}
+```
+* Формат ответа:
+```json
+[
+    {
+        "id": 13,
+        "name": "Мохито",
+        "description": "Классический коктейль.",
+        "time": 10
+    },
+    {
+        "id": 7,
+        "name": "Тирамису",
+        "description": "Итальянский десерт с кофе.",
+        "time": 60
+    }
+]
+```
 
 #### GetCategory
 * Метод: `GET`
