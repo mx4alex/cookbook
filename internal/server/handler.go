@@ -37,6 +37,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		dishes.GET("/cousine/:cousineID", h.GetDishCousineHandler)
 		dishes.GET("/category/:categoryID", h.GetDishCategoryHandler)
 		dishes.GET("/cousine/category/:cousineID/:categoryID", h.GetDishCousineCategoryHandler)
+		dishes.GET("/search", h.GetDishSearchHandler)
 	}
 
 	cousine := router.Group("/cousine")

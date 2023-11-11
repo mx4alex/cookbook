@@ -673,6 +673,59 @@ const docTemplate = `{
                 }
             }
         },
+        "/dish/search/": {
+            "get": {
+                "description": "get dishes by name or ingredients",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dish"
+                ],
+                "summary": "GetDishSearch",
+                "operationId": "get-dish-search",
+                "parameters": [
+                    {
+                        "description": "dishName or dishIngredients",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/server.inputText"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/server.dishOutput"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/dish/{id}": {
             "get": {
                 "description": "get dish information by id",
@@ -950,6 +1003,14 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "server.inputText": {
+            "type": "object",
+            "properties": {
+                "text": {
                     "type": "string"
                 }
             }

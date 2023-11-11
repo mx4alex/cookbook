@@ -78,6 +78,11 @@ definitions:
       message:
         type: string
     type: object
+  server.inputText:
+    properties:
+      text:
+        type: string
+    type: object
   server.statusID:
     properties:
       id:
@@ -638,6 +643,41 @@ paths:
           schema:
             $ref: '#/definitions/server.errorResponse'
       summary: GetDishesByCousineAndCategory
+      tags:
+      - dish
+  /dish/search/:
+    get:
+      consumes:
+      - application/json
+      description: get dishes by name or ingredients
+      operationId: get-dish-search
+      parameters:
+      - description: dishName or dishIngredients
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/server.inputText'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.dishOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+      summary: GetDishSearch
       tags:
       - dish
 swagger: "2.0"

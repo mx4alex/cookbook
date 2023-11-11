@@ -1,5 +1,5 @@
 package server
 
-type inputBody struct {
-	Text string `json:"name"`
+type inputText struct {
+	Text string `json:"text"`
 }

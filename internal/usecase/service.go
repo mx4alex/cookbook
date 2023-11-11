@@ -16,6 +16,7 @@ type Dish interface {
 	GetDishCousine(context.Context, int) ([]entity.Dish, error)
 	GetDishCategory(context.Context, int) ([]entity.Dish, error)
 	GetDishCousineCategory(context.Context, int, int) ([]entity.Dish, error)
+	GetDishSearch(context.Context, string) ([]entity.Dish, error)
 }
 
 type Cousine interface {

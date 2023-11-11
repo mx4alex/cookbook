@@ -302,3 +302,49 @@ func (h *Handler) GetDishCousineCategoryHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, outputDishes)
 }
+
+// @Summary 	GetDishSearch
+// @Tags 		dish
+// @Description get dishes by name or ingredients
+// @ID 			get-dish-search
+// @Accept  	json
+// @Produce  	json
+// @Param 		input body inputText true "dishName or dishIngredients"
+// @Success 	200 {object} dishOutput
+// @Failure 	400,404 {object} errorResponse
+// @Failure 	default {object} errorResponse
+// @Router /dish/search/ [get]
+func (h *Handler) GetDishSearchHandler(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
+	defer cancel()
+
+	input := new(inputText)
+	if err := c.BindJSON(input); err != nil {
+        c.String(http.StatusBadRequest, err.Error())
+        return
+    }
+
+	dishes, err := h.services.Dish.GetDishSearch(ctx, input.Text)
+	if err != nil {
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	if dishes == nil {
+		c.JSON(http.StatusOK, newStatusResponse("Блюдо не найдено"))
+		return
+	}
+	
+	var outputDishes []dishOutput
+	for _, dish := range dishes {
+		dishInfo := dishOutput {
+			ID: dish.ID,
+			Name: dish.Name,
+			Description: dish.Description,
+			Time: dish.Time,
+		}
+		outputDishes = append(outputDishes, dishInfo)
+	}
+
+	c.JSON(http.StatusOK, outputDishes)
+}

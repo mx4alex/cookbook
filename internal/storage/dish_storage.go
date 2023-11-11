@@ -323,3 +323,75 @@ func (s *DishPostgres) GetDishCousineCategory(ctx context.Context, cousineID, ca
 
 	return dishes, nil
 }
+
+func (s *DishPostgres) GetDishSearch(ctx context.Context, words []string) ([]entity.Dish, error) {
+	if len(words) == 0 {
+		return nil, nil
+	}
+
+	var dishes []entity.Dish
+	var name, description string
+	var dishID, time int
+	setID := make(map[int]bool)
+
+	for _, word := range words {
+	
+		rowsDish, err := s.db.QueryContext(ctx, "SELECT id, name, description, time FROM test.dish WHERE name LIKE $1", word + string('%'))
+		if err != nil {
+			return nil, err
+		}
+		defer rowsDish.Close()
+
+		for rowsDish.Next() {
+			err := rowsDish.Scan(&dishID, &name, &description, &time)
+			if err != nil {
+				return nil, err
+			}
+
+			_, ok := setID[dishID]
+			if !ok {
+				setID[dishID] = true
+
+				dish := entity.Dish{
+					ID:			 dishID,
+					Name: 		 name,
+					Description: description,
+					Time: 		 time,
+				}
+		
+				dishes = append(dishes, dish)
+			}
+
+		}
+
+		rowsDishIngredient, err := s.db.QueryContext(ctx, `SELECT d.id, d.name, d.description, d.time FROM test.dish d JOIN test.dish_ingredient di ON d.id = di.dish_id 
+															JOIN test.ingredient i ON di.ingredient_id = i.id WHERE i.name LIKE $1`, word + string('%'))
+		if err != nil {
+			return nil, err
+		}
+		defer rowsDishIngredient.Close()
+		
+		for rowsDishIngredient.Next() {
+			err := rowsDishIngredient.Scan(&dishID, &name, &description, &time)
+			if err != nil {
+				return nil, err
+			}
+
+			_, ok := setID[dishID]
+			if !ok {
+				setID[dishID] = true
+
+				dish := entity.Dish{
+					ID:			 dishID,
+					Name: 		 name,
+					Description: description,
+					Time: 		 time,
+				}
+		
+				dishes = append(dishes, dish)
+			}
+		}
+	}
+
+	return dishes, nil
+}
