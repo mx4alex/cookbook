@@ -4,6 +4,7 @@ import (
 	"cookbook/internal/entity"
 	"github.com/gin-gonic/gin"
 	"strconv"
+	"database/sql"
 	"net/http"
 	"context"
 )
@@ -16,6 +17,7 @@ import (
 // @Produce  	json
 // @Success 	200 {object} entity.Cousine
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /cousine/ [get]
 func (h *Handler) GetCousineHandler(c *gin.Context) {
@@ -24,6 +26,12 @@ func (h *Handler) GetCousineHandler(c *gin.Context) {
 
 	cousines, err := h.services.Cousine.GetCousines(ctx)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			emptyArray := []interface{}{}
+			c.JSON(http.StatusOK, emptyArray)
+			return
+		}
+
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -49,6 +57,7 @@ func (h *Handler) GetCousineHandler(c *gin.Context) {
 // @Param 		input body cousineInfo true "cousine information"
 // @Success 	200 {object} statusID
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /cousine/ [post]
 func (h *Handler) AddCousineHandler(c *gin.Context) {
@@ -85,6 +94,7 @@ func (h *Handler) AddCousineHandler(c *gin.Context) {
 // @Param 		input body cousineInfo true "cousine information"
 // @Success 	200 {object} statusResponse
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /cousine/{id} [put]
 func (h *Handler) UpdateCousineHandler(c *gin.Context) {
@@ -121,6 +131,7 @@ func (h *Handler) UpdateCousineHandler(c *gin.Context) {
 // @Param 		id path int true "cousineID"
 // @Success 	200 {object} statusResponse
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /cousine/{id} [delete]
 func (h *Handler) DeleteCousineHandler(c *gin.Context) {

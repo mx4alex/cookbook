@@ -3,6 +3,7 @@ package server
 import (
 	"cookbook/internal/entity"
 	"github.com/gin-gonic/gin"
+	"database/sql"
 	"net/http"
 	"strconv"
 	"context"
@@ -16,6 +17,7 @@ import (
 // @Produce  	json
 // @Success 	200 {object} dishOutput
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /dish/ [get]
 func (h *Handler) GetAllDishesHandler(c *gin.Context) {
@@ -24,6 +26,12 @@ func (h *Handler) GetAllDishesHandler(c *gin.Context) {
 
 	dishes, err := h.services.Dish.GetAllDishes(ctx)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			emptyArray := []interface{}{}
+			c.JSON(http.StatusOK, emptyArray)
+			return
+		}
+
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -51,6 +59,7 @@ func (h *Handler) GetAllDishesHandler(c *gin.Context) {
 // @Param 		id path int true "dishID"
 // @Success 	200 {object} entity.Dish
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /dish/{id} [get]
 func (h *Handler) GetDishInfoHandler(c *gin.Context) {
@@ -65,6 +74,10 @@ func (h *Handler) GetDishInfoHandler(c *gin.Context) {
 
 	dishInfo, err := h.services.Dish.GetDishInfo(ctx, dishID)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			c.String(http.StatusNotFound, "Блюдо не найдено")
+			return
+		}
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -81,6 +94,7 @@ func (h *Handler) GetDishInfoHandler(c *gin.Context) {
 // @Param 		input body entity.Dish true "dish information"
 // @Success 	200 {object} statusID
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /dish/ [post]
 func (h *Handler) AddDishHandler(c *gin.Context) {
@@ -117,6 +131,7 @@ func (h *Handler) AddDishHandler(c *gin.Context) {
 // @Param 		input body entity.Dish true "dish information"
 // @Success 	200 {object} statusResponse
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /dish/{id} [put]
 func (h *Handler) UpdateDishHandler(c *gin.Context) {
@@ -152,6 +167,7 @@ func (h *Handler) UpdateDishHandler(c *gin.Context) {
 // @Param 		id path int true "dishID"
 // @Success 	200 {object} statusResponse
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /dish/{id} [delete]
 func (h *Handler) DeleteDishHandler(c *gin.Context) {
@@ -182,6 +198,7 @@ func (h *Handler) DeleteDishHandler(c *gin.Context) {
 // @Param 		cousineID path int true "cousineID"
 // @Success 	200 {object} dishOutput
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /dish/cousine/{cousineID} [get]
 func (h *Handler) GetDishCousineHandler(c *gin.Context) {
@@ -196,6 +213,12 @@ func (h *Handler) GetDishCousineHandler(c *gin.Context) {
 
 	dishes, err := h.services.Dish.GetDishCousine(ctx, cousineID)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			emptyArray := []interface{}{}
+			c.JSON(http.StatusOK, emptyArray)
+			return
+		}
+		
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -223,6 +246,7 @@ func (h *Handler) GetDishCousineHandler(c *gin.Context) {
 // @Param 		categoryID path int true "categoryID"
 // @Success 	200 {object} dishOutput
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /dish/category/{categoryID} [get]
 func (h *Handler) GetDishCategoryHandler(c *gin.Context) {
@@ -237,6 +261,12 @@ func (h *Handler) GetDishCategoryHandler(c *gin.Context) {
 
 	dishes, err := h.services.Dish.GetDishCategory(ctx, categoryID)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			emptyArray := []interface{}{}
+			c.JSON(http.StatusOK, emptyArray)
+			return
+		}
+
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -265,6 +295,7 @@ func (h *Handler) GetDishCategoryHandler(c *gin.Context) {
 // @Param 		categoryID path int true "categoryID"
 // @Success 	200 {object} dishOutput
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /dish/cousine/category/{cousineID}/{categoryID} [get]
 func (h *Handler) GetDishCousineCategoryHandler(c *gin.Context) {
@@ -285,6 +316,12 @@ func (h *Handler) GetDishCousineCategoryHandler(c *gin.Context) {
 
 	dishes, err := h.services.Dish.GetDishCousineCategory(ctx, cousineID, categoryID)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			emptyArray := []interface{}{}
+			c.JSON(http.StatusOK, emptyArray)
+			return
+		}
+
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -313,6 +350,7 @@ func (h *Handler) GetDishCousineCategoryHandler(c *gin.Context) {
 // @Param 		input body inputText true "dishName or dishIngredients"
 // @Success 	200 {object} dishOutput
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /dish/search/ [get]
 func (h *Handler) GetDishSearchHandler(c *gin.Context) {
@@ -321,12 +359,13 @@ func (h *Handler) GetDishSearchHandler(c *gin.Context) {
 
 	dishes, err := h.services.Dish.GetDishSearch(ctx, c.Param("text"))
 	if err != nil {
-		c.String(http.StatusInternalServerError, err.Error())
-		return
-	}
+		if err == sql.ErrNoRows {
+			emptyArray := []interface{}{}
+			c.JSON(http.StatusOK, emptyArray)
+			return
+		}
 
-	if dishes == nil {
-		c.JSON(http.StatusOK, newStatusResponse("Блюдо не найдено"))
+		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
 	

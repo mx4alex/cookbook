@@ -21,7 +21,31 @@ func (s *DishService) GetAllDishes(ctx context.Context) ([]entity.Dish, error) {
 }
 
 func (s *DishService) GetDishInfo(ctx context.Context, id int) (entity.Dish, error) {
-	return s.st.GetDishInfo(ctx, id)
+	dishInfo, err := s.st.GetDishInfo(ctx, id)
+	if err != nil {
+		return dishInfo, err
+	}
+
+	var protein, fats, carbohydrates, quantity int
+
+	for _, ingredient := range dishInfo.Ingredients {
+		if ingredient.MeasureUnit == "г" || ingredient.MeasureUnit == "мл" {
+			quantity = ingredient.Quantity / 100
+		} else {
+			quantity = ingredient.Quantity
+		}
+
+		protein += quantity * ingredient.Protein 
+		fats += quantity * ingredient.Fats 
+		carbohydrates += quantity * ingredient.Carbohydrates 
+	}
+
+	dishInfo.Protein = protein
+	dishInfo.Fats = fats
+	dishInfo.Carbohydrates = carbohydrates
+	dishInfo.Kilocalories = 4 * protein + 9 * fats + 4 * carbohydrates
+
+	return dishInfo, nil
 }
 
 func (s *DishService) AddDish(ctx context.Context, dish *entity.Dish) (int, error) {

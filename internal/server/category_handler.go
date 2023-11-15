@@ -4,6 +4,7 @@ import (
 	"cookbook/internal/entity"
 	"github.com/gin-gonic/gin"
 	"strconv"
+	"database/sql"
 	"net/http"
 	"context"
 )
@@ -16,6 +17,7 @@ import (
 // @Produce  	json
 // @Success 	200 {object} entity.Category
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /category/ [get]
 func (h *Handler) GetCategoryHandler(c *gin.Context) {
@@ -24,6 +26,12 @@ func (h *Handler) GetCategoryHandler(c *gin.Context) {
 
 	categories, err := h.services.Category.GetCategories(ctx)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			emptyArray := []interface{}{}
+			c.JSON(http.StatusOK, emptyArray)
+			return
+		}
+
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -49,6 +57,7 @@ func (h *Handler) GetCategoryHandler(c *gin.Context) {
 // @Param 		input body categoryInfo true "category information"
 // @Success 	200 {object} statusID
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /category/ [post]
 func (h *Handler) AddCategoryHandler(c *gin.Context) {
@@ -85,6 +94,7 @@ func (h *Handler) AddCategoryHandler(c *gin.Context) {
 // @Param 		input body categoryInfo true "category information"
 // @Success 	200 {object} statusResponse
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /category/{id} [put]
 func (h *Handler) UpdateCategoryHandler(c *gin.Context) {
@@ -121,6 +131,7 @@ func (h *Handler) UpdateCategoryHandler(c *gin.Context) {
 // @Param 		id path int true "categoryID"
 // @Success 	200 {object} statusResponse
 // @Failure 	400,404 {object} errorResponse
+// @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
 // @Router /category/{id} [delete]
 func (h *Handler) DeleteCategoryHandler(c *gin.Context) {

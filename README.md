@@ -51,30 +51,40 @@
 ```json
 {
     "id": 1,
-    "name": "Спагетти Болоньезе",
-    "description": "Традиционное итальянское блюдо.",
-    "recipe": "Обжарьте мелко нарезанный лук и чеснок, добавьте мясной фарш, тушите с томатами. Подавайте с отварными спагетти.",
-    "time": 30,
+    "name": "Фруктовый салат",
+    "category_id": 6,
+    "cousine_id": 4,
+    "description": "Свежие фрукты в одном блюде.",
+    "recipe": "Нарежьте разнообразные фрукты (ягоды, яблоки, бананы), подавайте с соусом из меда и мятой.",
+    "time": 15,
+    "dish_protein": 5,
+    "dish_fats": 0,
+    "dish_carbohydrates": 68,
+    "kilocalories": 292,
     "ingredients": [
         {
-            "name": "Лук",
+            "name": "Бананы",
             "measure_unit": "г",
-            "quantity": 50
+            "quantity": 200,
+            "ingredient_protein": 2,
+            "ingredient_fats": 0,
+            "ingredient_carbohydrates": 23
         },
         {
-            "name": "Свинина",
+            "name": "Клубника",
             "measure_unit": "г",
-            "quantity": 300
+            "quantity": 100,
+            "ingredient_protein": 1,
+            "ingredient_fats": 0,
+            "ingredient_carbohydrates": 7
         },
         {
-            "name": "Помидоры",
-            "measure_unit": "шт",
-            "quantity": 200
-        },
-        {
-            "name": "Спагетти",
+            "name": "Мед",
             "measure_unit": "г",
-            "quantity": 200
+            "quantity": 100,
+            "ingredient_protein": 0,
+            "ingredient_fats": 0,
+            "ingredient_carbohydrates": 15
         }
     ]
 }
@@ -96,17 +106,26 @@
         {
             "name": "Ингредиент 1",
             "measure_unit": "г",
-            "quantity": 50
+            "quantity": 50,
+            "ingredient_protein": 2,
+            "ingredient_fats": 0,
+            "ingredient_carbohydrates": 3
         },
         {
             "name": "Ингредиент 2",
             "measure_unit": "г",
-            "quantity": 300
+            "quantity": 300,
+            "ingredient_protein": 1,
+            "ingredient_fats": 2,
+            "ingredient_carbohydrates": 3
         },
         {
             "name": "Ингредиент 3",
             "measure_unit": "шт",
-            "quantity": 200
+            "quantity": 200,
+            "ingredient_protein": 3,
+            "ingredient_fats": 2,
+            "ingredient_carbohydrates": 1
         }
     ]
 }
@@ -134,17 +153,26 @@
         {
             "name": "Ингредиент 1",
             "measure_unit": "г",
-            "quantity": 50
+            "quantity": 50,
+            "ingredient_protein": 2,
+            "ingredient_fats": 0,
+            "ingredient_carbohydrates": 3
         },
         {
             "name": "Ингредиент 2",
             "measure_unit": "г",
-            "quantity": 300
+            "quantity": 300,
+            "ingredient_protein": 1,
+            "ingredient_fats": 2,
+            "ingredient_carbohydrates": 3
         },
         {
             "name": "Ингредиент 3",
             "measure_unit": "шт",
-            "quantity": 200
+            "quantity": 200,
+            "ingredient_protein": 3,
+            "ingredient_fats": 2,
+            "ingredient_carbohydrates": 1
         }
     ]
 }

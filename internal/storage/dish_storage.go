@@ -16,7 +16,7 @@ func NewDishPostgres(db *sql.DB) *DishPostgres {
 }
 
 func (s *DishPostgres) GetAllDishes(ctx context.Context) ([]entity.Dish, error) {
-	rows, err := s.db.QueryContext(ctx, "SELECT id, name, description, time FROM test.dish")
+	rows, err := s.db.QueryContext(ctx, "SELECT id, name, description, time FROM empty.dish")
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +58,8 @@ func (s *DishPostgres) GetDishInfo(ctx context.Context, dishID int) (entity.Dish
         return entity.Dish{}, err
     }
 
-    ingredientRows, err := s.db.QueryContext(ctx, "SELECT i.name, i.measure_unit, di.quantity FROM test.ingredient i JOIN test.dish_ingredient di ON i.id = di.ingredient_id WHERE di.dish_id = $1", id)
+    ingredientRows, err := s.db.QueryContext(ctx, `SELECT i.name, i.measure_unit, i.protein, i.fats, i.carbohydrates, di.quantity FROM test.ingredient i 
+													JOIN test.dish_ingredient di ON i.id = di.ingredient_id WHERE di.dish_id = $1`, id)
     if err != nil {
         return entity.Dish{}, err
     }
@@ -66,18 +67,21 @@ func (s *DishPostgres) GetDishInfo(ctx context.Context, dishID int) (entity.Dish
 
     var ingredients []entity.Ingredient
 	var ingredientName, measureUnit string
-	var quantity int
+	var protein, fats, carbohydrates, quantity int
 
     for ingredientRows.Next() {
-        err := ingredientRows.Scan(&ingredientName, &measureUnit, &quantity)
+        err := ingredientRows.Scan(&ingredientName, &measureUnit, &protein, &fats, &carbohydrates, &quantity)
         if err != nil {
             return entity.Dish{}, err
         }
 
 		ingredient := entity.Ingredient{
-			Name:   	 ingredientName,
-			MeasureUnit: measureUnit,
-			Quantity: 	 quantity,
+			Name:   	 	ingredientName,
+			MeasureUnit: 	measureUnit,
+			Quantity: 	 	quantity,
+			Protein: 	 	protein,
+			Fats:        	fats,
+			Carbohydrates: 	carbohydrates,
 		}
 
         ingredients = append(ingredients, ingredient)
@@ -180,11 +184,17 @@ func (s *DishPostgres) UpdateDish(ctx context.Context, dishID int, dishInput *en
 		
 		if !exists {
 			_, err = tx.ExecContext(ctx, "INSERT INTO test.ingredient (name, measure_unit, protein, fats, carbohydrates) VALUES ($1, $2, $3, $4, $5)",
-				ingredient.Name, ingredient.MeasureUnit, 0, 0, 0)
+				ingredient.Name, ingredient.MeasureUnit, ingredient.Protein, ingredient.Fats, ingredient.Carbohydrates)
 			if err != nil {
 				return err
 			}
-		} 
+		} else {
+			_, err = tx.ExecContext(ctx, "UPDATE test.ingredient SET measure_unit = $2, protein = $3, fats = $4, carbohydrates = $5 WHERE name = $1",
+				ingredient.Name, ingredient.MeasureUnit, ingredient.Protein, ingredient.Fats, ingredient.Carbohydrates)
+			if err != nil {
+				return err
+			}
+		}
 
 		var ingredientID int
 		err = tx.QueryRowContext(ctx, "SELECT id FROM test.ingredient WHERE name = $1", ingredient.Name).Scan(&ingredientID)
