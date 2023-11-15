@@ -16,7 +16,7 @@ func NewDishPostgres(db *sql.DB) *DishPostgres {
 }
 
 func (s *DishPostgres) GetAllDishes(ctx context.Context) ([]entity.Dish, error) {
-	rows, err := s.db.QueryContext(ctx, "SELECT id, name, description, time FROM empty.dish")
+	rows, err := s.db.QueryContext(ctx, "SELECT id, name, description, time FROM test.dish")
 	if err != nil {
 		return nil, err
 	}
