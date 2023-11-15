@@ -652,6 +652,11 @@ paths:
       description: get dishes by name or ingredients
       operationId: get-dish-search
       parameters:
+      - description: input text
+        in: path
+        name: text
+        required: true
+        type: string
       - description: dishName or dishIngredients
         in: body
         name: input

@@ -309,6 +309,7 @@ func (h *Handler) GetDishCousineCategoryHandler(c *gin.Context) {
 // @ID 			get-dish-search
 // @Accept  	json
 // @Produce  	json
+// @Param 		text path string true "input text"
 // @Param 		input body inputText true "dishName or dishIngredients"
 // @Success 	200 {object} dishOutput
 // @Failure 	400,404 {object} errorResponse
@@ -318,13 +319,7 @@ func (h *Handler) GetDishSearchHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
 	defer cancel()
 
-	input := new(inputText)
-	if err := c.BindJSON(input); err != nil {
-        c.String(http.StatusBadRequest, err.Error())
-        return
-    }
-
-	dishes, err := h.services.Dish.GetDishSearch(ctx, input.Text)
+	dishes, err := h.services.Dish.GetDishSearch(ctx, c.Param("text"))
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return

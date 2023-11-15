@@ -689,6 +689,13 @@ const docTemplate = `{
                 "operationId": "get-dish-search",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "input text",
+                        "name": "text",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "dishName or dishIngredients",
                         "name": "input",
                         "in": "body",
