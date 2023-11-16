@@ -174,9 +174,11 @@ func (s *DishPostgres) UpdateDish(ctx context.Context, dishID int, dishInput *en
 		return err
 	}
 
+	var exists bool
+	var count int
+
 	for _, ingredient := range dishInput.Ingredients {
 
-		var exists bool
 		err := tx.QueryRowContext(ctx, "SELECT EXISTS(SELECT * FROM test.ingredient WHERE name = $1)", ingredient.Name).Scan(&exists)
 		if err != nil {
 			return err
@@ -189,10 +191,17 @@ func (s *DishPostgres) UpdateDish(ctx context.Context, dishID int, dishInput *en
 				return err
 			}
 		} else {
-			_, err = tx.ExecContext(ctx, "UPDATE test.ingredient SET measure_unit = $2, protein = $3, fats = $4, carbohydrates = $5 WHERE name = $1",
-				ingredient.Name, ingredient.MeasureUnit, ingredient.Protein, ingredient.Fats, ingredient.Carbohydrates)
+			err := tx.QueryRowContext(ctx, "SELECT COUNT(*) FROM test.ingredient i JOIN test.dish_ingredient di ON i.id = di.ingredient_id WHERE i.name = $1", ingredient.Name).Scan(&count)
 			if err != nil {
 				return err
+			}
+
+			if count == 0 {
+				_, err = tx.ExecContext(ctx, "UPDATE test.ingredient SET measure_unit = $2, protein = $3, fats = $4, carbohydrates = $5 WHERE name = $1",
+					ingredient.Name, ingredient.MeasureUnit, ingredient.Protein, ingredient.Fats, ingredient.Carbohydrates)
+				if err != nil {
+					return err
+				}
 			}
 		}
 
