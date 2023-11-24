@@ -1,8 +1,8 @@
-host_addr: "localhost:8080"
+host_addr: ":8080"
 handle_timeout: 10s
 
 postgres:
-  host: "localhost"
+  host: "db"
   port: 5432
   user: "postgres"
   password: "qwerty"

@@ -10,6 +10,6 @@ RUN go mod download
 COPY ./ ./
 
 RUN chmod +x entrypoint.sh \
-    && go build -o taskmanager ./cmd/app/main.go
+    && go build -o cookbook ./cmd/app/main.go
 
 CMD ["./cookbook"]
