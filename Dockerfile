@@ -9,7 +9,6 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY ./ ./
 
-RUN chmod +x entrypoint.sh \
-    && go build -o cookbook ./cmd/app/main.go
+RUN go build -o cookbook ./cmd/app/main.go
 
 CMD ["./cookbook"]

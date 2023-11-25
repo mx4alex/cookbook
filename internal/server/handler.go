@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"time"
 	"github.com/swaggo/gin-swagger"
+	"github.com/gin-contrib/cors"
 	"github.com/swaggo/files"
 	_ "cookbook/docs"
 )
@@ -25,6 +26,18 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	config := cors.DefaultConfig()
+
+
+    config.AllowOrigins = []string{"*"}
+    config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
+    config.AllowHeaders = []string{"Origin", "Content-Type"}
+	config.AllowCredentials = true
+
+	corsHandler := cors.New(config)
+
+	router.Use(corsHandler)
 
 	dishes := router.Group("/dish")
 	{
