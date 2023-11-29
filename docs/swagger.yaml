@@ -26,12 +26,20 @@ definitions:
         type: integer
       description:
         type: string
+      dish_carbohydrates:
+        type: integer
+      dish_fats:
+        type: integer
+      dish_protein:
+        type: integer
       id:
         type: integer
       ingredients:
         items:
           $ref: '#/definitions/entity.Ingredient'
         type: array
+      kilocalories:
+        type: integer
       name:
         type: string
       recipe:
@@ -41,6 +49,12 @@ definitions:
     type: object
   entity.Ingredient:
     properties:
+      ingredient_carbohydrates:
+        type: integer
+      ingredient_fats:
+        type: integer
+      ingredient_protein:
+        type: integer
       measure_unit:
         type: string
       name:
@@ -76,11 +90,6 @@ definitions:
   server.errorResponse:
     properties:
       message:
-        type: string
-    type: object
-  server.inputText:
-    properties:
-      text:
         type: string
     type: object
   server.statusID:
@@ -121,6 +130,10 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.errorResponse'
         default:
           description: ""
           schema:
@@ -155,6 +168,10 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.errorResponse'
         default:
           description: ""
           schema:
@@ -187,6 +204,10 @@ paths:
             $ref: '#/definitions/server.errorResponse'
         "404":
           description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
           schema:
             $ref: '#/definitions/server.errorResponse'
         default:
@@ -228,6 +249,10 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.errorResponse'
         default:
           description: ""
           schema:
@@ -254,6 +279,10 @@ paths:
             $ref: '#/definitions/server.errorResponse'
         "404":
           description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
           schema:
             $ref: '#/definitions/server.errorResponse'
         default:
@@ -290,6 +319,10 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.errorResponse'
         default:
           description: ""
           schema:
@@ -322,6 +355,10 @@ paths:
             $ref: '#/definitions/server.errorResponse'
         "404":
           description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
           schema:
             $ref: '#/definitions/server.errorResponse'
         default:
@@ -363,6 +400,10 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.errorResponse'
         default:
           description: ""
           schema:
@@ -389,6 +430,10 @@ paths:
             $ref: '#/definitions/server.errorResponse'
         "404":
           description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
           schema:
             $ref: '#/definitions/server.errorResponse'
         default:
@@ -425,6 +470,10 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.errorResponse'
         default:
           description: ""
           schema:
@@ -459,6 +508,10 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.errorResponse'
         default:
           description: ""
           schema:
@@ -490,6 +543,10 @@ paths:
             $ref: '#/definitions/server.errorResponse'
         "404":
           description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
           schema:
             $ref: '#/definitions/server.errorResponse'
         default:
@@ -531,6 +588,10 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.errorResponse'
         default:
           description: ""
           schema:
@@ -565,6 +626,10 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.errorResponse'
         default:
           description: ""
           schema:
@@ -597,6 +662,10 @@ paths:
             $ref: '#/definitions/server.errorResponse'
         "404":
           description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
           schema:
             $ref: '#/definitions/server.errorResponse'
         default:
@@ -638,6 +707,10 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.errorResponse'
         default:
           description: ""
           schema:
@@ -657,12 +730,6 @@ paths:
         name: text
         required: true
         type: string
-      - description: dishName or dishIngredients
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/server.inputText'
       produces:
       - application/json
       responses:
@@ -676,6 +743,10 @@ paths:
             $ref: '#/definitions/server.errorResponse'
         "404":
           description: Not Found
+          schema:
+            $ref: '#/definitions/server.errorResponse'
+        "500":
+          description: Internal Server Error
           schema:
             $ref: '#/definitions/server.errorResponse'
         default:

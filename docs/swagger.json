@@ -42,6 +42,12 @@
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -89,6 +95,12 @@
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -153,6 +165,12 @@
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -202,6 +220,12 @@
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -240,6 +264,12 @@
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -291,6 +321,12 @@
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -355,6 +391,12 @@
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -404,6 +446,12 @@
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -442,6 +490,12 @@
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -497,6 +551,12 @@
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -544,6 +604,12 @@
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -606,6 +672,12 @@
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -657,6 +729,12 @@
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -687,15 +765,6 @@
                         "name": "text",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "dishName or dishIngredients",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/server.inputText"
-                        }
                     }
                 ],
                 "responses": {
@@ -713,6 +782,12 @@
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -764,6 +839,12 @@
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -826,6 +907,12 @@
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -871,6 +958,12 @@
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -926,6 +1019,15 @@
                 "description": {
                     "type": "string"
                 },
+                "dish_carbohydrates": {
+                    "type": "integer"
+                },
+                "dish_fats": {
+                    "type": "integer"
+                },
+                "dish_protein": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -934,6 +1036,9 @@
                     "items": {
                         "$ref": "#/definitions/entity.Ingredient"
                     }
+                },
+                "kilocalories": {
+                    "type": "integer"
                 },
                 "name": {
                     "type": "string"
@@ -949,6 +1054,15 @@
         "entity.Ingredient": {
             "type": "object",
             "properties": {
+                "ingredient_carbohydrates": {
+                    "type": "integer"
+                },
+                "ingredient_fats": {
+                    "type": "integer"
+                },
+                "ingredient_protein": {
+                    "type": "integer"
+                },
                 "measure_unit": {
                     "type": "string"
                 },
@@ -1003,14 +1117,6 @@
             "type": "object",
             "properties": {
                 "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "server.inputText": {
-            "type": "object",
-            "properties": {
-                "text": {
                     "type": "string"
                 }
             }

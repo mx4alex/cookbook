@@ -49,6 +49,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -96,6 +102,12 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -160,6 +172,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -209,6 +227,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -247,6 +271,12 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -298,6 +328,12 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -362,6 +398,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -411,6 +453,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -449,6 +497,12 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -504,6 +558,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -551,6 +611,12 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -613,6 +679,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -664,6 +736,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -694,15 +772,6 @@ const docTemplate = `{
                         "name": "text",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "dishName or dishIngredients",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/server.inputText"
-                        }
                     }
                 ],
                 "responses": {
@@ -720,6 +789,12 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -771,6 +846,12 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -833,6 +914,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/server.errorResponse"
                         }
                     },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
                     "default": {
                         "description": "",
                         "schema": {
@@ -878,6 +965,12 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/server.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/server.errorResponse"
                         }
@@ -933,6 +1026,15 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
+                "dish_carbohydrates": {
+                    "type": "integer"
+                },
+                "dish_fats": {
+                    "type": "integer"
+                },
+                "dish_protein": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -941,6 +1043,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/entity.Ingredient"
                     }
+                },
+                "kilocalories": {
+                    "type": "integer"
                 },
                 "name": {
                     "type": "string"
@@ -956,6 +1061,15 @@ const docTemplate = `{
         "entity.Ingredient": {
             "type": "object",
             "properties": {
+                "ingredient_carbohydrates": {
+                    "type": "integer"
+                },
+                "ingredient_fats": {
+                    "type": "integer"
+                },
+                "ingredient_protein": {
+                    "type": "integer"
+                },
                 "measure_unit": {
                     "type": "string"
                 },
@@ -1010,14 +1124,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "server.inputText": {
-            "type": "object",
-            "properties": {
-                "text": {
                     "type": "string"
                 }
             }
