@@ -751,7 +751,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/dish/search/": {
+        "/dish/search/{text}": {
             "get": {
                 "description": "get dishes by name or ingredients",
                 "consumes": [

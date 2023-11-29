@@ -351,7 +351,7 @@ func (h *Handler) GetDishCousineCategoryHandler(c *gin.Context) {
 // @Failure 	400,404 {object} errorResponse
 // @Failure 	500 {object} errorResponse
 // @Failure 	default {object} errorResponse
-// @Router /dish/search/ [get]
+// @Router /dish/search/{text} [get]
 func (h *Handler) GetDishSearchHandler(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), h.handleTimeout)
 	defer cancel()

@@ -718,7 +718,7 @@ paths:
       summary: GetDishesByCousineAndCategory
       tags:
       - dish
-  /dish/search/:
+  /dish/search/{text}:
     get:
       consumes:
       - application/json
