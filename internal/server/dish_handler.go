@@ -347,7 +347,6 @@ func (h *Handler) GetDishCousineCategoryHandler(c *gin.Context) {
 // @Accept  	json
 // @Produce  	json
 // @Param 		text path string true "input text"
-// @Param 		input body inputText true "dishName or dishIngredients"
 // @Success 	200 {object} dishOutput
 // @Failure 	400,404 {object} errorResponse
 // @Failure 	500 {object} errorResponse

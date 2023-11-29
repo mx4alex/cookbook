@@ -6,7 +6,7 @@ type Ingredient struct {
 	Quantity		int  		`json:"quantity"`
 	Protein 	 	int 		`json:"ingredient_protein"`
 	Fats 		 	int 		`json:"ingredient_fats"`
-	Carbohydrates  int	 		`json:"ingredient_carbohydrates"`
+	Carbohydrates   int	 		`json:"ingredient_carbohydrates"`
 }
 
 type Dish struct {
@@ -19,7 +19,7 @@ type Dish struct {
 	Time        	int 			`json:"time"`
 	Protein 	 	int 			`json:"dish_protein"`
 	Fats 		 	int 			`json:"dish_fats"`
-	Carbohydrates  int	 			`json:"dish_carbohydrates"`
+	Carbohydrates   int	 			`json:"dish_carbohydrates"`
 	Kilocalories	int				`json:"kilocalories"`
 	Ingredients  	[]Ingredient 	`json:"ingredients"`
 }
