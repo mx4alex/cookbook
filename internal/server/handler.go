@@ -7,7 +7,7 @@ import (
 	"github.com/swaggo/gin-swagger"
 	"github.com/gin-contrib/cors"
 	"github.com/swaggo/files"
-	_ "cookbook/docs"
+	_ "cookbook/api"
 )
 
 type Handler struct {
